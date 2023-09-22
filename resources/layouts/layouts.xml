@@ -1,0 +1,30 @@
+<layouts>
+    <!-- A generic, centered layout. -->
+    <layout id="MainLayout">
+        <drawable class="Background" />
+        <drawable class="HeartRate" id="HeartRate">
+            <param name="y">64</param>
+        </drawable>
+        <drawable class="Stamina" />
+        <drawable class="Track" />
+
+        <!-- hr labels -->
+        <label id="hr" x="center" y="6" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_MEDIUM" />
+        <label id="ahr" x="32%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+        <label id="mhr" x="68%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+
+        <!-- TODO distance, pace, avg pace, time, timer, elevation, egain, calories -->
+    </layout>
+
+    <!-- Layouts used for the for the four quadrants. -->
+    <layout id="TopLayout">
+        <drawable class="Background" />
+        <label id="label" x="14" y="75" color="0x888888" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" />
+        <label id="value" x="14" y="42" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_LARGE" />
+    </layout>
+    <layout id="BottomLayout">
+        <drawable class="Background" />
+        <label id="label" x="95" y="10" color="0x888888" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_TINY" />
+        <label id="value" x="95" y="27" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" />
+    </layout>
+</layouts>
