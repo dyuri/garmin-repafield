@@ -3,7 +3,6 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.UserProfile;
 import Toybox.WatchUi;
-// TODO remove
 import Toybox.System;
 
 class RepaFieldView extends WatchUi.DataField {
@@ -14,6 +13,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var hrZones as Array<Numeric>;
     hidden var toDestination as Float;
     hidden var distance as Float;
+    hidden var timer as Numeric;
     hidden var offCourse as Float;
 
     function initialize() {
@@ -24,6 +24,7 @@ class RepaFieldView extends WatchUi.DataField {
         hrZones = UserProfile.getHeartRateZones(UserProfile.getCurrentSport());
         toDestination = 0.0f;
         distance = 0.0f;
+        timer = 0;
         offCourse = 0.0f;
     }
 
@@ -82,53 +83,41 @@ class RepaFieldView extends WatchUi.DataField {
         }
     }
 
-    // The given info object contains all the current workout information.
-    // Calculate a value and save it locally in this method.
-    // Note that compute() and onUpdate() are asynchronous, and there is no
-    // guarantee that compute() will be called before onUpdate().
     function compute(info as Activity.Info) as Void {
-        // See Activity.Info in the documentation for available information.
-        if (info has :currentHeartRate) {
-            if(info.currentHeartRate != null) {
-                hrValue = info.currentHeartRate as Number;
-            } else {
-                hrValue = 0;
-            }
+        if(info.currentHeartRate != null) {
+            hrValue = info.currentHeartRate as Number;
+        } else {
+            hrValue = 0;
         }
-        if (info has :averageHeartRate) {
-            if(info.averageHeartRate != null) {
-                ahrValue = info.averageHeartRate as Number;
-            } else {
-                ahrValue = 0;
-            }
+        if(info.averageHeartRate != null) {
+            ahrValue = info.averageHeartRate as Number;
+        } else {
+            ahrValue = 0;
         }
-        if (info has :maxHeartRate) {
-            if(info.maxHeartRate != null) {
-                mhrValue = info.maxHeartRate as Number;
-            } else {
-                mhrValue = 0;
-            }
+        if(info.maxHeartRate != null) {
+            mhrValue = info.maxHeartRate as Number;
+        } else {
+            mhrValue = 0;
         }
-        if (info has :elapsedDistance) {
-            if (info.elapsedDistance != null) {
-                distance = info.elapsedDistance as Float;
-            } else {
-                distance = 0.0f;
-            }
+        if (info.elapsedDistance != null) {
+            distance = info.elapsedDistance as Float;
+        } else {
+            distance = 0.0f;
         }
-        if (info has :distanceToDestination) {
-            if (info.distanceToDestination != null) {
-                toDestination = info.distanceToDestination as Float;
-            } else {
-                toDestination = 0.0f;
-            }
+        if (info.timerTime != null) {
+            timer = info.timerTime / 1000;
+        } else {
+            timer = 0;
         }
-        if (info has :offCourseDistance) {
-            if (info.offCourseDistance != null) {
-                offCourse = info.offCourseDistance as Float;
-            } else {
-                offCourse = 0.0f;
-            }
+        if (info.distanceToDestination != null) {
+            toDestination = info.distanceToDestination as Float;
+        } else {
+            toDestination = 0.0f;
+        }
+        if (info.offCourseDistance != null) {
+            offCourse = info.offCourseDistance as Float;
+        } else {
+            offCourse = 0.0f;
         }
     }
 
@@ -162,6 +151,20 @@ class RepaFieldView extends WatchUi.DataField {
             track.setToDestination(toDestination);
             track.setDistance(distance);
             track.setOffCourse(offCourse);
+        }
+
+        // time
+        var timeField = View.findDrawableById("time") as Text;
+        if (timeField != null) {
+            var time = System.getClockTime();
+            timeField.setText(time.hour.format("%02d") + ":" + time.min.format("%02d"));
+        }
+        var timerField = View.findDrawableById("timer") as Text;
+        if (timerField != null) {
+            var trh = timer / 3600;
+            var trm = (timer % 3600) / 60;
+            var trs = timer % 60;
+            timerField.setText(trh.format("%02d") + ":" + trm.format("%02d") + ":" + trs.format("%02d"));
         }
 
         // Set the foreground color and value

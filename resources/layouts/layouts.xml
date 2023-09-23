@@ -5,13 +5,17 @@
         <drawable class="HeartRate" id="HeartRate">
             <param name="y">64</param>
         </drawable>
-        <!-- drawable class="Stamina" /-->
         <drawable class="Track" />
+        <!-- drawable class="Stamina" /-->
 
         <!-- hr labels -->
         <label id="hr" x="center" y="6" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_MEDIUM" />
         <label id="ahr" x="32%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
         <label id="mhr" x="68%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+
+        <!-- time/timer -->
+        <label id="time" x="center" y="370" color="Graphics.COLOR_LT_GRAY" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_XTINY" />
+        <label id="timer" x="center" y="330" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SMALL" />
 
         <!-- TODO distance, pace, avg pace, time, timer, elevation, egain, calories -->
     </layout>
