@@ -2,6 +2,8 @@ import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.WatchUi;
 
+// TODO: stamina not supported yet in the API
+
 class Stamina extends WatchUi.Drawable {
 
     function initialize() {

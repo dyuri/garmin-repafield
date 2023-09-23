@@ -1,8 +1,13 @@
 import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.WatchUi;
+import Toybox.Lang;
 
 class Track extends WatchUi.Drawable {
+
+    hidden var _toDestination as Float;
+    hidden var _distance as Float;
+    hidden var _offCourse as Float;
 
     function initialize() {
         var dictionary = {
@@ -10,9 +15,62 @@ class Track extends WatchUi.Drawable {
         };
 
         Drawable.initialize(dictionary);
+
+        _toDestination = 0.0f;
+        _distance = 0.0f;
+        _offCourse = 0.0f;
+    }
+
+    function setToDestination(tdst as Float) as Void {
+        _toDestination = tdst;
+    }
+
+    function setDistance(dst as Float) as Void {
+        _distance = dst;
+    }
+
+    function setOffCourse(off as Float) as Void {
+        _offCourse = off;
     }
 
     function draw(dc as Dc) as Void {
-        dc.setColor(0xFF8800, Graphics.COLOR_TRANSPARENT);
+        if (_toDestination == 0.0f) {
+            return;
+        }
+
+        var trackPercentage = _distance / (_distance + _toDestination);
+        if (trackPercentage > 1.0f) {
+            trackPercentage = 1.0f;
+        }
+
+        // draw
+        var w = dc.getWidth();
+        var h = dc.getHeight();
+        var astart = 150;
+        var aend = 390;
+        dc.setPenWidth(4);
+        dc.setColor(0x555555, Graphics.COLOR_TRANSPARENT);
+        dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, aend);
+
+        if (trackPercentage <= 0.0f) {
+            return;
+        }
+
+        // color
+        if (_offCourse > 50.0f) {
+            dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
+        } else if (trackPercentage < 0.2) {
+            dc.setColor(0xFFFF00, Graphics.COLOR_TRANSPARENT);
+        } else if (trackPercentage < 0.4) {
+            dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT);
+        } else if (trackPercentage < 0.6) {
+            dc.setColor(0x88FF00, Graphics.COLOR_TRANSPARENT);
+        } else if (trackPercentage < 0.8) {
+            dc.setColor(0x44FF00, Graphics.COLOR_TRANSPARENT);
+        } else {
+            dc.setColor(0x00FF00, Graphics.COLOR_TRANSPARENT);
+        }
+
+        dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, astart + (aend-astart) * trackPercentage);
     }
 }

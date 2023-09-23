@@ -5,7 +5,7 @@
         <drawable class="HeartRate" id="HeartRate">
             <param name="y">64</param>
         </drawable>
-        <drawable class="Stamina" />
+        <!-- drawable class="Stamina" /-->
         <drawable class="Track" />
 
         <!-- hr labels -->

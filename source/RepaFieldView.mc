@@ -3,6 +3,8 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.UserProfile;
 import Toybox.WatchUi;
+// TODO remove
+import Toybox.System;
 
 class RepaFieldView extends WatchUi.DataField {
 
@@ -10,6 +12,9 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var ahrValue as Numeric;
     hidden var mhrValue as Numeric;
     hidden var hrZones as Array<Numeric>;
+    hidden var toDestination as Float;
+    hidden var distance as Float;
+    hidden var offCourse as Float;
 
     function initialize() {
         DataField.initialize();
@@ -17,6 +22,9 @@ class RepaFieldView extends WatchUi.DataField {
         ahrValue = 0;
         mhrValue = 0;
         hrZones = UserProfile.getHeartRateZones(UserProfile.getCurrentSport());
+        toDestination = 0.0f;
+        distance = 0.0f;
+        offCourse = 0.0f;
     }
 
     function calculateHRColor(hr as Numeric) as Numeric {
@@ -37,6 +45,16 @@ class RepaFieldView extends WatchUi.DataField {
             }
         }
         return hrColor;
+    }
+
+    function darken(color as Numeric) as Numeric {
+        var r = (color >> 16) & 0xFF;
+        var g = (color >> 8) & 0xFF;
+        var b = color & 0xFF;
+        r = r * 0.5f;
+        g = g * 0.5f;
+        b = b * 0.5f;
+        return (r.toLong() << 16) | (g.toLong() << 8) | b.toLong();
     }
 
     // Set your layout here. Anytime the size of obscurity of
@@ -70,25 +88,46 @@ class RepaFieldView extends WatchUi.DataField {
     // guarantee that compute() will be called before onUpdate().
     function compute(info as Activity.Info) as Void {
         // See Activity.Info in the documentation for available information.
-        if (info has :currentHeartRate){
-            if(info.currentHeartRate != null){
+        if (info has :currentHeartRate) {
+            if(info.currentHeartRate != null) {
                 hrValue = info.currentHeartRate as Number;
             } else {
                 hrValue = 0;
             }
         }
-        if (info has :averageHeartRate){
-            if(info.averageHeartRate != null){
+        if (info has :averageHeartRate) {
+            if(info.averageHeartRate != null) {
                 ahrValue = info.averageHeartRate as Number;
             } else {
                 ahrValue = 0;
             }
         }
-        if (info has :maxHeartRate){
-            if(info.maxHeartRate != null){
+        if (info has :maxHeartRate) {
+            if(info.maxHeartRate != null) {
                 mhrValue = info.maxHeartRate as Number;
             } else {
                 mhrValue = 0;
+            }
+        }
+        if (info has :elapsedDistance) {
+            if (info.elapsedDistance != null) {
+                distance = info.elapsedDistance as Float;
+            } else {
+                distance = 0.0f;
+            }
+        }
+        if (info has :distanceToDestination) {
+            if (info.distanceToDestination != null) {
+                toDestination = info.distanceToDestination as Float;
+            } else {
+                toDestination = 0.0f;
+            }
+        }
+        if (info has :offCourseDistance) {
+            if (info.offCourseDistance != null) {
+                offCourse = info.offCourseDistance as Float;
+            } else {
+                offCourse = 0.0f;
             }
         }
     }
@@ -102,16 +141,28 @@ class RepaFieldView extends WatchUi.DataField {
         // HR value
         var hrColor = calculateHRColor(hrValue);
         var hr = View.findDrawableById("hr") as Text;
-        hr.setColor(hrColor);
+        hr.setColor(calculateHRColor(hrValue));
         hr.setText(hrValue.format("%d"));
         var ahr = View.findDrawableById("ahr") as Text;
+        ahr.setColor(darken(calculateHRColor(ahrValue)));
         ahr.setText(ahrValue.format("%d"));
         var mhr = View.findDrawableById("mhr") as Text;
+        mhr.setColor(darken(calculateHRColor(mhrValue)));
         mhr.setText(mhrValue.format("%d"));
         var hrGraph = View.findDrawableById("HeartRate") as HeartRate;
-        hrGraph.setHRColor(hrColor);
-        hrGraph.setHRZones(hrZones);
-        hrGraph.setHRValue(hrValue);
+        if (hrGraph != null) {
+            hrGraph.setHRColor(hrColor);
+            hrGraph.setHRZones(hrZones);
+            hrGraph.setHRValue(hrValue);
+        }
+
+        // track
+        var track = View.findDrawableById("Track") as Track;
+        if (track != null) {
+            track.setToDestination(toDestination);
+            track.setDistance(distance);
+            track.setOffCourse(offCourse);
+        }
 
         // Set the foreground color and value
         var value = View.findDrawableById("value") as Text;
