@@ -58,19 +58,25 @@ class Track extends WatchUi.Drawable {
 
         // color
         if (_offCourse > 50.0f) {
-            dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x8800FF, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.2) {
-            dc.setColor(0xFFFF00, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x4400FF, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.4) {
-            dc.setColor(0xAAFF00, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x0000FF, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.6) {
-            dc.setColor(0x88FF00, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x0055FF, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.8) {
-            dc.setColor(0x44FF00, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x00AAFF, Graphics.COLOR_TRANSPARENT);
         } else {
-            dc.setColor(0x00FF00, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x00FFFF, Graphics.COLOR_TRANSPARENT);
         }
 
-        dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, astart + (aend-astart) * trackPercentage);
+        var acurrent = astart + (aend - astart) * trackPercentage;
+        if (acurrent < astart + 1) {
+            acurrent = astart + 1;
+        } else if (acurrent > aend) {
+            acurrent = aend;
+        }
+        dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, acurrent);
     }
 }

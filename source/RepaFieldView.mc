@@ -14,6 +14,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var toDestination as Float;
     hidden var distance as Float;
     hidden var timer as Numeric;
+    hidden var timerState as Number;
     hidden var offCourse as Float;
 
     function initialize() {
@@ -25,6 +26,7 @@ class RepaFieldView extends WatchUi.DataField {
         toDestination = 0.0f;
         distance = 0.0f;
         timer = 0;
+        timerState = Activity.TIMER_STATE_OFF;
         offCourse = 0.0f;
     }
 
@@ -109,6 +111,11 @@ class RepaFieldView extends WatchUi.DataField {
         } else {
             timer = 0;
         }
+        if (info.timerState != null) {
+            timerState = info.timerState;
+        } else {
+            timerState = Activity.TIMER_STATE_OFF;
+        }
         if (info.distanceToDestination != null) {
             toDestination = info.distanceToDestination as Float;
         } else {
@@ -124,8 +131,8 @@ class RepaFieldView extends WatchUi.DataField {
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
     function onUpdate(dc as Dc) as Void {
-        // Set the background color
-        (View.findDrawableById("Background") as Background).setColor(getBackgroundColor());
+        // Set the background color - don't ;)
+        // (View.findDrawableById("Background") as Background).setColor(getBackgroundColor());
 
         // HR value
         var hrColor = calculateHRColor(hrValue);
@@ -164,7 +171,24 @@ class RepaFieldView extends WatchUi.DataField {
             var trh = timer / 3600;
             var trm = (timer % 3600) / 60;
             var trs = timer % 60;
+            if (timerState == Activity.TIMER_STATE_ON) {
+                timerField.setColor(Graphics.COLOR_WHITE);
+            } else if (timerState == Activity.TIMER_STATE_PAUSED) {
+                timerField.setColor(Graphics.COLOR_YELLOW);
+            } else {
+                timerField.setColor(Graphics.COLOR_RED);
+            }
             timerField.setText(trh.format("%02d") + ":" + trm.format("%02d") + ":" + trs.format("%02d"));
+        }
+
+        // distance
+        var dstField = View.findDrawableById("distance") as Text;
+        if (dstField != null) {
+            if (distance >= 10000) {
+                dstField.setText((distance / 1000).format("%.1f"));
+            } else {
+                dstField.setText((distance / 1000).format("%.2f"));
+            }
         }
 
         // Set the foreground color and value

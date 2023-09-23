@@ -1,7 +1,7 @@
 <layouts>
     <!-- A generic, centered layout. -->
     <layout id="MainLayout">
-        <drawable class="Background" />
+        <drawable class="Background"/>
         <drawable class="HeartRate" id="HeartRate">
             <param name="y">64</param>
         </drawable>
@@ -17,7 +17,14 @@
         <label id="time" x="center" y="370" color="Graphics.COLOR_LT_GRAY" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_XTINY" />
         <label id="timer" x="center" y="330" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SMALL" />
 
-        <!-- TODO distance, pace, avg pace, time, timer, elevation, egain, calories -->
+        <!-- distance/pace/avg pace -->
+        <label id="pace" x="80%" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
+        <label id="paceLabel" x="81%" y="136" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="pace"/>
+        <label id="apace" x="80%" y="178" color="0x4488FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" text="12.34"/>
+        <label id="apaceLabel" x="81%" y="200" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="apace"/>
+        <label id="distance" x="80%" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
+        <label id="distanceLabel" x="81%" y="272" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" text="km"/>
+        <!-- TODO distance, pace, avg pace, elevation, egain, calories -->
     </layout>
 
     <!-- Layouts used for the for the four quadrants. -->
