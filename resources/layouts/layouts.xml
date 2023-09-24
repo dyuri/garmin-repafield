@@ -3,9 +3,9 @@
     <layout id="MainLayout">
         <drawable class="Background"/>
         <drawable class="BgOverlay" id="BgOverlay">
-            <param name="x">132</param>
+            <param name="x">142</param>
             <param name="y">62</param>
-            <param name="w">300</param>
+            <param name="w">280</param>
             <param name="h">260</param>
             <param name="d">-30</param>
         </drawable>
@@ -25,14 +25,23 @@
         <label id="timer" x="center" y="330" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SMALL" />
 
         <!-- distance/pace/avg pace -->
-        <label id="pace" x="80%" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
-        <label id="paceLabel" x="81%" y="136" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="pace"/>
-        <label id="apace" x="80%" y="178" color="0x4488FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" text="12.34"/>
-        <label id="apaceLabel" x="81%" y="200" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="apace"/>
-        <label id="distance" x="80%" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
-        <label id="distanceLabel" x="81%" y="272" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" text="km"/>
+        <label id="pace" x="82%" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
+        <label id="paceLabel" x="83%" y="136" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="pace"/>
+        <label id="apace" x="82%" y="178" color="0x4488FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" text="12.34"/>
+        <label id="apaceLabel" x="83%" y="200" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="apace"/>
+        <label id="distance" x="82%" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
+        <label id="distanceLabel" x="83%" y="272" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" text="km"/>
 
-        <!-- TODO elevation, egain, power -->
+        <!-- elevation, egain -->
+        <label id="elevation" x="13%" y="92" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="elevationLabel" x="12%" y="98" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="e"/>
+        <label id="elevationGain" x="13%" y="132" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="elevationGainLabel" x="12%" y="138" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="+"/>
+        <label id="elevationLoss" x="13%" y="172" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="elevationLossLabel" x="12%" y="178" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="-"/>
+
+        <!-- power -->
+        <label id="power" x="13%" y="260" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_LARGE" text="234"/>
     </layout>
 
     <!-- Layouts used for the for the four quadrants. -->
