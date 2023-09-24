@@ -58,9 +58,9 @@ class Track extends WatchUi.Drawable {
 
         // color
         if (_offCourse > 50.0f) {
-            dc.setColor(0x8800FF, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.2) {
-            dc.setColor(0x4400FF, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(0x8800FF, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.4) {
             dc.setColor(0x0000FF, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.6) {
