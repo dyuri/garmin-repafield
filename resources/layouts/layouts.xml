@@ -2,6 +2,13 @@
     <!-- A generic, centered layout. -->
     <layout id="MainLayout">
         <drawable class="Background"/>
+        <drawable class="BgOverlay" id="BgOverlay">
+            <param name="x">132</param>
+            <param name="y">62</param>
+            <param name="w">300</param>
+            <param name="h">260</param>
+            <param name="d">-30</param>
+        </drawable>
         <drawable class="HeartRate" id="HeartRate">
             <param name="y">64</param>
         </drawable>
@@ -24,7 +31,8 @@
         <label id="apaceLabel" x="81%" y="200" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="apace"/>
         <label id="distance" x="80%" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
         <label id="distanceLabel" x="81%" y="272" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" text="km"/>
-        <!-- TODO distance, pace, avg pace, elevation, egain, calories -->
+
+        <!-- TODO elevation, egain, power -->
     </layout>
 
     <!-- Layouts used for the for the four quadrants. -->

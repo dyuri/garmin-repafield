@@ -16,6 +16,8 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var timer as Numeric;
     hidden var timerState as Number;
     hidden var offCourse as Float;
+    hidden var speed as Float;
+    hidden var aspeed as Float;
 
     function initialize() {
         DataField.initialize();
@@ -28,6 +30,8 @@ class RepaFieldView extends WatchUi.DataField {
         timer = 0;
         timerState = Activity.TIMER_STATE_OFF;
         offCourse = 0.0f;
+        speed = 0.0f;
+        aspeed = 0.0f;
     }
 
     function calculateHRColor(hr as Numeric) as Numeric {
@@ -126,6 +130,16 @@ class RepaFieldView extends WatchUi.DataField {
         } else {
             offCourse = 0.0f;
         }
+        if (info.currentSpeed != null) {
+            speed = info.currentSpeed as Float;
+        } else {
+            speed = 0.0f;
+        }
+        if (info.averageSpeed != null) {
+            aspeed = info.averageSpeed as Float;
+        } else {
+            aspeed = 0.0f;
+        }
     }
 
     // Display the value you computed here. This will be called
@@ -190,6 +204,31 @@ class RepaFieldView extends WatchUi.DataField {
                 dstField.setText((distance / 1000).format("%.2f"));
             }
         }
+
+        // pace
+        var paceField = View.findDrawableById("pace") as Text;
+        if (paceField != null) {
+            if (speed != 0) {
+                var pace = 1000 / 60 / speed; // mps -> min/km
+                var pmin = pace.toNumber();
+                var psec = (pace - pmin) * 60;
+                paceField.setText(pmin.format("%2d") + ":" + psec.format("%02d"));
+            } else {
+                paceField.setText("--:--");
+            }
+        }
+        var apaceField = View.findDrawableById("apace") as Text;
+        if (apaceField != null) {
+            if (aspeed != 0) {
+                var apace = 1000 / 60 / aspeed; // mps -> min/km
+                var apmin = apace.toNumber();
+                var apsec = (apace - apmin) * 60;
+                apaceField.setText(apmin.format("%2d") + ":" + apsec.format("%02d"));
+            } else {
+                apaceField.setText("--:--");
+            }
+        }
+
 
         // Set the foreground color and value
         var value = View.findDrawableById("value") as Text;
