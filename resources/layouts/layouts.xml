@@ -21,8 +21,9 @@
         <label id="mhr" x="68%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
 
         <!-- time/timer -->
-        <label id="time" x="center" y="370" color="Graphics.COLOR_LT_GRAY" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_XTINY" />
-        <label id="timer" x="center" y="330" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SMALL" />
+        <label id="timerHM" x="132" y="258" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_MEDIUM" />
+        <label id="timerS" x="134" y="278" color="Graphics.COLOR_LT_GRAY" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" />
+        <label id="time" x="center" y="330" color="0xDDFF88" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
 
         <!-- distance/pace/avg pace -->
         <label id="pace" x="82%" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
@@ -32,16 +33,18 @@
         <label id="distance" x="82%" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
         <label id="distanceLabel" x="83%" y="272" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" text="km"/>
 
-        <!-- elevation, egain -->
-        <label id="elevation" x="13%" y="92" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <label id="elevationLabel" x="12%" y="98" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="e"/>
-        <label id="elevationGain" x="13%" y="132" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <label id="elevationGainLabel" x="12%" y="138" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="+"/>
-        <label id="elevationLoss" x="13%" y="172" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <label id="elevationLossLabel" x="12%" y="178" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="-"/>
+        <!-- cadence -->
+        <label id="cadence" x="13%" y="92" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM" />
+        <label id="cadenceLabel" x="12%" y="98" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="c"/>
 
-        <!-- power -->
-        <label id="power" x="13%" y="260" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_LARGE" text="234"/>
+        <!-- elevation, egain -->
+        <label id="elevation" x="13%" y="132" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="elevationLabel" x="12%" y="138" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="e"/>
+        <label id="elevationGain" x="13%" y="172" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="elevationGainLabel" x="12%" y="178" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="+"/>
+        <label id="elevationLoss" x="13%" y="212" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="elevationLossLabel" x="12%" y="218" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="-"/>
+
     </layout>
 
     <!-- Layouts used for the for the four quadrants. -->

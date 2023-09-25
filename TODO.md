@@ -1,7 +1,5 @@
-- power gauge
 - icons
 - settings
   - configurable theme color
   - pace/speed based on sport
   - imperial unit support
-  - cadence => power (for devices w/o power)

@@ -11,7 +11,9 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var ahrValue as Numeric;
     hidden var mhrValue as Numeric;
     hidden var hrZones as Array<Numeric>;
-    hidden var powerZones as Array<Numeric>;
+    hidden var hrZoneColors as Array<Numeric>;
+    hidden var cadenceZones as Array<Numeric>;
+    hidden var cadenceZoneColors as Array<Numeric>;
     hidden var toDestination as Float;
     hidden var distance as Float;
     hidden var timer as Numeric;
@@ -22,7 +24,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var altitude as Float;
     hidden var egain as Number;
     hidden var edrop as Number;
-    hidden var power as Number;
+    hidden var cadence as Number;
 
     function initialize() {
         DataField.initialize();
@@ -30,7 +32,9 @@ class RepaFieldView extends WatchUi.DataField {
         ahrValue = 0;
         mhrValue = 0;
         hrZones = UserProfile.getHeartRateZones(UserProfile.getCurrentSport());
-        powerZones = [105, 227, 280, 315, 350, 400]; // TODO not implemented yet in the API, so this is based on my TP of 350W ;)
+        hrZoneColors = [Graphics.COLOR_BLACK, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
+        cadenceZones = [153, 163, 173, 183];
+        cadenceZoneColors = [Graphics.COLOR_RED, Graphics.COLOR_YELLOW, Graphics.COLOR_GREEN, Graphics.COLOR_BLUE, Graphics.COLOR_PURPLE];
         toDestination = 0.0f;
         distance = 0.0f;
         timer = 0;
@@ -41,34 +45,25 @@ class RepaFieldView extends WatchUi.DataField {
         altitude = 0.0f;
         egain = 0;
         edrop = 0;
-        power = 0;
+        cadence = 0;
     }
 
-    function calculateZoneColor(v as Numeric, zones as Array<Numeric>) as Numeric {
-        var vColor = Graphics.COLOR_BLACK;
-        if (v < zones[1]) {
-            vColor = Graphics.COLOR_LT_GRAY;
-        } else if (v < zones[2]) {
-            vColor = Graphics.COLOR_BLUE;
-        } else if (v < zones[3]) {
-            vColor = Graphics.COLOR_GREEN;
-        } else if (v < zones[4]) {
-            vColor = Graphics.COLOR_YELLOW;
-        } else if (v < zones[5]) {
-            vColor = Graphics.COLOR_RED;
-        } else {
-            vColor = Graphics.COLOR_DK_RED;
+    function calculateZoneColor(v as Numeric, zones as Array<Numeric>, zoneColors as Array<Numeric>) as Numeric {
+        for (var i = 0; i < zones.size(); i++) {
+            if (v < zones[i]) {
+                return zoneColors[i];
+            }
         }
-        return vColor;
+        return zoneColors[zoneColors.size() - 1];
     }
 
-    function darken(color as Numeric) as Numeric {
+    function darken(color as Numeric, factor as Numeric) as Numeric {
         var r = (color >> 16) & 0xFF;
         var g = (color >> 8) & 0xFF;
         var b = color & 0xFF;
-        r = r * 0.5f;
-        g = g * 0.5f;
-        b = b * 0.5f;
+        r = r / factor.toFloat();
+        g = g / factor.toFloat();
+        b = b / factor.toFloat();
         return (r.toLong() << 16) | (g.toLong() << 8) | b.toLong();
     }
 
@@ -163,10 +158,10 @@ class RepaFieldView extends WatchUi.DataField {
         } else {
             edrop = 0;
         }
-        if (info.currentPower != null) {
-            power = info.currentPower as Number;
+        if (info.currentCadence != null) {
+            cadence = info.currentCadence as Number;
         } else {
-            power = 0;
+            cadence = 0;
         }
     }
 
@@ -177,15 +172,15 @@ class RepaFieldView extends WatchUi.DataField {
         // (View.findDrawableById("Background") as Background).setColor(getBackgroundColor());
 
         // HR value
-        var hrColor = calculateZoneColor(hrValue, hrZones);
+        var hrColor = calculateZoneColor(hrValue, hrZones, hrZoneColors);
         var hr = View.findDrawableById("hr") as Text;
         hr.setColor(hrColor);
         hr.setText(hrValue.format("%d"));
         var ahr = View.findDrawableById("ahr") as Text;
-        ahr.setColor(darken(calculateZoneColor(ahrValue, hrZones)));
+        ahr.setColor(darken(calculateZoneColor(ahrValue, hrZones, hrZoneColors), 2));
         ahr.setText(ahrValue.format("%d"));
         var mhr = View.findDrawableById("mhr") as Text;
-        mhr.setColor(darken(calculateZoneColor(mhrValue, hrZones)));
+        mhr.setColor(darken(calculateZoneColor(mhrValue, hrZones, hrZoneColors), 2));
         mhr.setText(mhrValue.format("%d"));
         var hrGraph = View.findDrawableById("HeartRate") as HeartRate;
         if (hrGraph != null) {
@@ -208,19 +203,24 @@ class RepaFieldView extends WatchUi.DataField {
             var time = System.getClockTime();
             timeField.setText(time.hour.format("%02d") + ":" + time.min.format("%02d"));
         }
-        var timerField = View.findDrawableById("timer") as Text;
+        var timerField = View.findDrawableById("timerHM") as Text;
+        var timerSecField = View.findDrawableById("timerS") as Text;
         if (timerField != null) {
             var trh = timer / 3600;
             var trm = (timer % 3600) / 60;
             var trs = timer % 60;
+            var timerColor = Graphics.COLOR_RED;
             if (timerState == Activity.TIMER_STATE_ON) {
-                timerField.setColor(Graphics.COLOR_WHITE);
+                timerColor = Graphics.COLOR_WHITE;
             } else if (timerState == Activity.TIMER_STATE_PAUSED) {
-                timerField.setColor(Graphics.COLOR_YELLOW);
-            } else {
-                timerField.setColor(Graphics.COLOR_RED);
+                timerColor = Graphics.COLOR_YELLOW;
             }
-            timerField.setText(trh.format("%02d") + ":" + trm.format("%02d") + ":" + trs.format("%02d"));
+            timerField.setColor(timerColor);
+            timerField.setText(trh.format("%02d") + ":" + trm.format("%02d"));
+            if (timerSecField != null) {
+                timerSecField.setColor(darken(timerColor, 1.5));
+                timerSecField.setText(trs.format("%02d"));
+            }
         }
 
         // distance
@@ -271,15 +271,15 @@ class RepaFieldView extends WatchUi.DataField {
             eDropField.setText(edrop.format("%d"));
         }
 
-        // power
-        var powerColor = calculateZoneColor(power, powerZones);
-        var powerField = View.findDrawableById("power") as Text;
-        powerField.setColor(powerColor);
-        if (powerField != null) {
-            if (power != 0) {
-                powerField.setText(power.format("%d"));
+        // cadence
+        var cadenceColor = darken(calculateZoneColor(cadence, cadenceZones, cadenceZoneColors), 1.5);
+        var cadenceField = View.findDrawableById("cadence") as Text;
+        cadenceField.setColor(cadenceColor);
+        if (cadenceField != null) {
+            if (cadence != 0) {
+                cadenceField.setText(cadence.format("%d"));
             } else {
-                powerField.setText("-");
+                cadenceField.setText("-");
             }
         }
 
