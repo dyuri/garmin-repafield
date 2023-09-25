@@ -216,7 +216,11 @@ class RepaFieldView extends WatchUi.DataField {
                 timerColor = Graphics.COLOR_YELLOW;
             }
             timerField.setColor(timerColor);
-            timerField.setText(trh.format("%02d") + ":" + trm.format("%02d"));
+            if (trh > 0) {
+                timerField.setText(trh.format("%d") + ":" + trm.format("%02d"));
+            } else {
+                timerField.setText(trm.format("%02d"));
+            }
             if (timerSecField != null) {
                 timerSecField.setColor(darken(timerColor, 1.5));
                 timerSecField.setText(trs.format("%02d"));
