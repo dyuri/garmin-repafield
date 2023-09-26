@@ -264,6 +264,7 @@ class RepaFieldView extends WatchUi.DataField {
         // alt/egain/edrop
         var altField = View.findDrawableById("elevation") as Text;
         if (altField != null) {
+            // draw icon
             altField.setText(altitude.format("%.0f"));
         }
         var eGainField = View.findDrawableById("elevationGain") as Text;
@@ -300,6 +301,17 @@ class RepaFieldView extends WatchUi.DataField {
 
         // Call parent's onUpdate(dc) to redraw the layout
         View.onUpdate(dc);
+        // var bitmap = WatchUi.loadResource(Rez.Drawables.iconHills);
+        // dc.drawBitmap(132, 132, bitmap);
+        // TODO
+        /*
+        var bm = new WatchUi.Bitmap({
+            :rezId => Rez.Drawables.iconHills,
+            :locX => 132,
+            :locY => 132
+        });
+        bm.draw(dc);
+        */
     }
 
 }

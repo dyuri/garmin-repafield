@@ -38,12 +38,12 @@
         <label id="cadenceLabel" x="12%" y="98" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="c"/>
 
         <!-- elevation, egain -->
+        <bitmap id="iconHills" filename="../drawables/hills.png" x="20" y="144" />
         <label id="elevation" x="13%" y="132" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <label id="elevationLabel" x="12%" y="138" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="e"/>
+        <bitmap id="iconEGain" filename="../drawables/e_gain.png" x="20" y="184" />
         <label id="elevationGain" x="13%" y="172" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <label id="elevationGainLabel" x="12%" y="178" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="+"/>
+        <bitmap id="iconELoss" filename="../drawables/e_loss.png" x="20" y="224" />
         <label id="elevationLoss" x="13%" y="212" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <label id="elevationLossLabel" x="12%" y="218" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="-"/>
 
     </layout>
 

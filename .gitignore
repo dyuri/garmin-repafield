@@ -1,1 +1,6 @@
 /bin
+/gen
+/mir
+/internal-mir
+RepaField.prg
+RepaField.prg.debug.xml
