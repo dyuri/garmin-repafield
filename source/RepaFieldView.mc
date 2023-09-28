@@ -32,7 +32,7 @@ class RepaFieldView extends WatchUi.DataField {
         ahrValue = 0;
         mhrValue = 0;
         hrZones = UserProfile.getHeartRateZones(UserProfile.getCurrentSport());
-        hrZoneColors = [Graphics.COLOR_BLACK, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
+        hrZoneColors = [Graphics.COLOR_DK_GRAY, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
         cadenceZones = [153, 163, 173, 183];
         cadenceZoneColors = [Graphics.COLOR_RED, Graphics.COLOR_YELLOW, Graphics.COLOR_GREEN, Graphics.COLOR_BLUE, Graphics.COLOR_PURPLE];
         toDestination = 0.0f;
@@ -301,17 +301,6 @@ class RepaFieldView extends WatchUi.DataField {
 
         // Call parent's onUpdate(dc) to redraw the layout
         View.onUpdate(dc);
-        // var bitmap = WatchUi.loadResource(Rez.Drawables.iconHills);
-        // dc.drawBitmap(132, 132, bitmap);
-        // TODO
-        /*
-        var bm = new WatchUi.Bitmap({
-            :rezId => Rez.Drawables.iconHills,
-            :locX => 132,
-            :locY => 132
-        });
-        bm.draw(dc);
-        */
     }
 
 }

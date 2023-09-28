@@ -3,11 +3,11 @@
     <layout id="MainLayout">
         <drawable class="Background"/>
         <drawable class="BgOverlay" id="BgOverlay">
-            <param name="x">142</param>
+            <param name="x">158</param>
             <param name="y">62</param>
             <param name="w">280</param>
             <param name="h">260</param>
-            <param name="d">-30</param>
+            <param name="d">-32</param>
         </drawable>
         <drawable class="HeartRate" id="HeartRate">
             <param name="y">64</param>
@@ -26,24 +26,24 @@
         <label id="time" x="center" y="330" color="0xDDFF88" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
 
         <!-- distance/pace/avg pace -->
-        <label id="pace" x="82%" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
-        <label id="paceLabel" x="83%" y="136" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="pace"/>
-        <label id="apace" x="82%" y="178" color="0x4488FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" text="12.34"/>
-        <label id="apaceLabel" x="83%" y="200" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="apace"/>
-        <label id="distance" x="82%" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
-        <label id="distanceLabel" x="83%" y="272" color="0x004488" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_TINY" text="km"/>
+        <label id="pace" x="360" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
+        <bitmap id="iconPace" filename="../drawables/pace.png" x="362" y="132" />
+        <label id="apace" x="360" y="178" color="0x4488FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" text="12.34"/>
+        <bitmap id="iconAPace" filename="../drawables/apace.png" x="362" y="198" />
+        <label id="distance" x="360" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
+        <label id="distanceLabel" x="364" y="246" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>
 
         <!-- cadence -->
-        <label id="cadence" x="13%" y="92" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM" />
-        <label id="cadenceLabel" x="12%" y="98" color="0x004488" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_SMALL" text="c"/>
+        <bitmap id="iconCadence" filename="../drawables/cadence.png" x="36" y="116" />
+        <label id="cadence" x="62" y="92" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM" />
 
         <!-- elevation, egain -->
-        <bitmap id="iconHills" filename="../drawables/hills.png" x="20" y="144" />
-        <label id="elevation" x="13%" y="132" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <bitmap id="iconEGain" filename="../drawables/e_gain.png" x="20" y="184" />
-        <label id="elevationGain" x="13%" y="172" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <bitmap id="iconELoss" filename="../drawables/e_loss.png" x="20" y="224" />
-        <label id="elevationLoss" x="13%" y="212" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <bitmap id="iconHills" filename="../drawables/hills.png" x="22" y="144" />
+        <label id="elevation" x="62" y="132" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <bitmap id="iconEGain" filename="../drawables/e_gain.png" x="22" y="184" />
+        <label id="elevationGain" x="62" y="172" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <bitmap id="iconELoss" filename="../drawables/e_loss.png" x="22" y="224" />
+        <label id="elevationLoss" x="62" y="212" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
 
     </layout>
 
