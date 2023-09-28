@@ -23,12 +23,16 @@
         <!-- time/timer -->
         <label id="timerHM" x="132" y="258" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_MEDIUM" />
         <label id="timerS" x="134" y="278" color="Graphics.COLOR_LT_GRAY" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" />
-        <label id="time" x="center" y="330" color="0xDDFF88" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
+        <label id="timeS1" x="212" y="330" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
+        <label id="timeS2" x="214" y="330" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
+        <label id="timeS3" x="213" y="328" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
+        <label id="timeS4" x="213" y="332" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
+        <label id="time" x="213" y="330" color="0x000000" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
 
         <!-- distance/pace/avg pace -->
-        <label id="pace" x="360" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" text="12.34"/>
+        <label id="pace" x="360" y="80" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM"/>
         <bitmap id="iconPace" filename="../drawables/pace.png" x="362" y="132" />
-        <label id="apace" x="360" y="178" color="0x4488FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE" text="12.34"/>
+        <label id="apace" x="360" y="178" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE"/>
         <bitmap id="iconAPace" filename="../drawables/apace.png" x="362" y="198" />
         <label id="distance" x="360" y="224" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
         <label id="distanceLabel" x="364" y="246" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>

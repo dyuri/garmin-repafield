@@ -11,6 +11,9 @@ class BgOverlay extends WatchUi.Drawable {
     hidden var h as Number;
     hidden var d as Number;
 
+    hidden var c1 as Number;
+    hidden var c2 as Number;
+
     function initialize(params as Dictionary) {
         Drawable.initialize(params);
         x = 132;
@@ -33,12 +36,23 @@ class BgOverlay extends WatchUi.Drawable {
         if (params.hasKey(:d)) {
             d = params.get(:d) as Number;
         }
+
+        c1 = 0x002244;
+        c2 = 0x003366;
+    }
+
+    function setColor1(c as Number) as Void {
+        c1 = c;
+    }
+
+    function setColor2(c as Number) as Void {
+        c2 = c;
     }
 
     function draw(dc as Dc) as Void {
-        dc.setColor(0x002244, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(c1, Graphics.COLOR_TRANSPARENT);
         dc.fillPolygon([[x+w, y], [x, y], [x-d, y+h], [x+w, y+h]]);
-        dc.setColor(0x003366, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(c2, Graphics.COLOR_TRANSPARENT);
         dc.setPenWidth(1);
         dc.drawLine(x+w, y, x, y);
         dc.drawLine(x, y, x-d, y+h);

@@ -4,8 +4,11 @@ import Toybox.Lang;
 import Toybox.UserProfile;
 import Toybox.WatchUi;
 import Toybox.System;
+import Toybox.Application;
 
 class RepaFieldView extends WatchUi.DataField {
+
+    hidden var themeColor as Numeric;
 
     hidden var hrValue as Numeric;
     hidden var ahrValue as Numeric;
@@ -28,6 +31,9 @@ class RepaFieldView extends WatchUi.DataField {
 
     function initialize() {
         DataField.initialize();
+
+        themeColor = Application.Properties.getValue("themeColor").toNumberWithBase(16);
+
         hrValue = 0;
         ahrValue = 0;
         mhrValue = 0;
@@ -86,10 +92,25 @@ class RepaFieldView extends WatchUi.DataField {
             View.setLayout(Rez.Layouts.MainLayout(dc));
         }
 
+        // TODO remove
         var label = View.findDrawableById("label") as Text;
         if (label != null) {
             label.setText(Rez.Strings.label);
         }
+
+        // theme color
+        var bgo = View.findDrawableById("BgOverlay") as BgOverlay;
+        bgo.setColor1(darken(themeColor, 4));
+        bgo.setColor2(darken(themeColor, 2));
+
+        var elevationField = View.findDrawableById("elevation") as Text;
+        elevationField.setColor(themeColor);
+        var elevationGainField = View.findDrawableById("elevationGain") as Text;
+        elevationGainField.setColor(themeColor);
+        var elevationLossField = View.findDrawableById("elevationLoss") as Text;
+        elevationLossField.setColor(themeColor);
+        var aPaceField = View.findDrawableById("apace") as Text;
+        aPaceField.setColor(themeColor);
     }
 
     function compute(info as Activity.Info) as Void {
@@ -198,11 +219,27 @@ class RepaFieldView extends WatchUi.DataField {
         }
 
         // time
+        var time = System.getClockTime();
+        var tstr = time.hour.format("%02d") + ":" + time.min.format("%02d");
         var timeField = View.findDrawableById("time") as Text;
         if (timeField != null) {
-            var time = System.getClockTime();
-            timeField.setText(time.hour.format("%02d") + ":" + time.min.format("%02d"));
+            timeField.setText(tstr);
         }
+        // TODO ?
+        var ts1 = View.findDrawableById("timeS1") as Text;
+        var ts2 = View.findDrawableById("timeS2") as Text;
+        var ts3 = View.findDrawableById("timeS3") as Text;
+        var ts4 = View.findDrawableById("timeS4") as Text;
+        ts1.setColor(themeColor);
+        ts1.setText(tstr);
+        ts2.setColor(themeColor);
+        ts2.setText(tstr);
+        ts3.setColor(themeColor);
+        ts3.setText(tstr);
+        ts4.setColor(themeColor);
+        ts4.setText(tstr);
+
+        // timer
         var timerField = View.findDrawableById("timerHM") as Text;
         var timerSecField = View.findDrawableById("timerS") as Text;
         if (timerField != null) {
