@@ -1,4 +1,6 @@
 <properties>
     <property id="appVersion" type="string">0.8.0</property>
     <property id="themeColor" type="string">0088FF</property>
+    <property id="themeColor2" type="string">0088FF</property>
+    <property id="themeColor3" type="string">FFFF00</property>
 </properties>

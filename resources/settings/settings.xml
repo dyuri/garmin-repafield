@@ -6,5 +6,11 @@
     <setting propertyKey="@Properties.themeColor" title="@Strings.ThemeColorTitle">
         <settingConfig type="alphaNumeric" />
     </setting>
+    <setting propertyKey="@Properties.themeColor2" title="@Strings.ThemeColor2Title">
+        <settingConfig type="alphaNumeric" />
+    </setting>
+    <setting propertyKey="@Properties.themeColor3" title="@Strings.ThemeColor3Title">
+        <settingConfig type="alphaNumeric" />
+    </setting>
 
 </settings>
