@@ -16,7 +16,7 @@ Trail running focused Garmin watch DataField (for myself)
   - current
   - gain
   - loss
-- power
+- cadence
 - distance to destination gauge
 
 ![RepaField running](./repafield1.png)
