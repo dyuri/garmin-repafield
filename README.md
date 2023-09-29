@@ -7,7 +7,7 @@ Trail running focused Garmin watch DataField (for myself)
   - average
   - current
   - max
-  - gauge
+  - histogram
 - pace
   - current
   - average

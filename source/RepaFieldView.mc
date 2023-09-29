@@ -13,6 +13,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var themeColor2 as Numeric;
     hidden var themeColor3 as Numeric;
     hidden var hrZones as Array<Numeric>;
+    hidden var hrHist as Array<Numeric>;
     hidden var hrZoneColors as Array<Numeric>;
     hidden var cadenceZones as Array<Numeric>;
     hidden var cadenceZoneColors as Array<Numeric>;
@@ -36,6 +37,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var fHrGraph;
 
     // values
+    hidden var hrTicks as Number;
     hidden var hrValue as Numeric;
     hidden var ahrValue as Numeric;
     hidden var mhrValue as Numeric;
@@ -62,6 +64,8 @@ class RepaFieldView extends WatchUi.DataField {
         ahrValue = 0;
         mhrValue = 0;
         hrZones = UserProfile.getHeartRateZones(UserProfile.getCurrentSport());
+        hrHist = [0, 0, 0, 0, 0, 0, 0];
+        hrTicks = 0;
         hrZoneColors = [Graphics.COLOR_DK_GRAY, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
         cadenceZones = [153, 163, 173, 183];
         cadenceZoneColors = [Graphics.COLOR_RED, Graphics.COLOR_YELLOW, Graphics.COLOR_GREEN, Graphics.COLOR_BLUE, Graphics.COLOR_PURPLE];
@@ -76,6 +80,19 @@ class RepaFieldView extends WatchUi.DataField {
         egain = 0;
         edrop = 0;
         cadence = 0;
+    }
+
+    function tickHr(v as Number) {
+        hrTicks++;
+        var hrzsize = hrZones.size();
+        for (var i = 0; i < hrzsize; i++) {
+            if (v < hrZones[i]) {
+                hrHist[i]++;
+                return;
+            }
+        }
+        // out of range
+        hrHist[hrzsize]++;
     }
 
     function calculateZoneColor(v as Numeric, zones as Array<Numeric>, zoneColors as Array<Numeric>) as Numeric {
@@ -134,6 +151,9 @@ class RepaFieldView extends WatchUi.DataField {
         fMHr = View.findDrawableById("mhr") as Text;
         fHrGraph = View.findDrawableById("HeartRate") as HeartRate;
 
+        // init fields
+        fHrGraph.setHRZoneColors(hrZoneColors);
+
         // theme setup
         fBgOverlay.setColor1(darken(themeColor, 4));
         fBgOverlay.setColor2(darken(themeColor, 2));
@@ -147,6 +167,7 @@ class RepaFieldView extends WatchUi.DataField {
     function compute(info as Activity.Info) as Void {
         if(info.currentHeartRate != null) {
             hrValue = info.currentHeartRate as Number;
+            tickHr(hrValue);
         } else {
             hrValue = 0;
         }
@@ -229,9 +250,8 @@ class RepaFieldView extends WatchUi.DataField {
         fMHr.setColor(darken(calculateZoneColor(mhrValue, hrZones, hrZoneColors), 2));
         fMHr.setText(mhrValue.format("%d"));
         if (fHrGraph != null) {
-            fHrGraph.setHRColor(hrColor);
-            fHrGraph.setHRZones(hrZones);
-            fHrGraph.setHRValue(hrValue);
+            fHrGraph.setHRHist(hrHist);
+            fHrGraph.setHRTicks(hrTicks);
         }
 
         // track
@@ -267,7 +287,7 @@ class RepaFieldView extends WatchUi.DataField {
             }
             if (fTimerSec != null) {
                 fTimerSec.setColor(darken(timerColor, 1.5));
-                fTimerSec.setText(trs.format("%02d"));
+                fTimerSec.setText(":" + trs.format("%02d"));
             }
         }
 
