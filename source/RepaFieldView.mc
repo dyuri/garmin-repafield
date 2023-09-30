@@ -17,6 +17,10 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var hrZoneColors as Array<Numeric>;
     hidden var cadenceZones as Array<Numeric>;
     hidden var cadenceZoneColors as Array<Numeric>;
+    hidden var isDistanceMetric as Boolean;
+    hidden var isElevationMetric as Boolean;
+    hidden var mileToKm as Float = 1.609344f;
+    hidden var meterToFeet as Float = 3.28084f;
 
     // fields
     hidden var fBgOverlay;
@@ -48,6 +52,8 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var offCourse as Float;
     hidden var speed as Float;
     hidden var aspeed as Float;
+    hidden var pace as Float;
+    hidden var apace as Float;
     hidden var altitude as Float;
     hidden var egain as Number;
     hidden var edrop as Number;
@@ -76,10 +82,16 @@ class RepaFieldView extends WatchUi.DataField {
         offCourse = 0.0f;
         speed = 0.0f;
         aspeed = 0.0f;
+        pace = 0.0f;
+        apace = 0.0f;
         altitude = 0.0f;
         egain = 0;
         edrop = 0;
         cadence = 0;
+
+        var settings = System.getDeviceSettings();
+        isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;
+        isElevationMetric = settings.elevationUnits == System.UNIT_METRIC;
     }
 
     function tickHr(v as Number) {
@@ -162,6 +174,12 @@ class RepaFieldView extends WatchUi.DataField {
         fElevationGain.setColor(themeColor2);
         fElevationLoss.setColor(themeColor2);
         fTime.setColor(themeColor3);
+
+        // units
+        if (!isDistanceMetric) {
+            var fdl = View.findDrawableById("distanceLabel") as Text;
+            fdl.setText("mi");
+        }
     }
 
     function compute(info as Activity.Info) as Void {
@@ -208,13 +226,25 @@ class RepaFieldView extends WatchUi.DataField {
         }
         if (info.currentSpeed != null) {
             speed = info.currentSpeed as Float;
+            if (speed == 0) {
+                pace = 0.0f;
+            } else {
+                pace = 1000 / 60 / speed;
+            }
         } else {
             speed = 0.0f;
+            pace = 0.0f;
         }
         if (info.averageSpeed != null) {
             aspeed = info.averageSpeed as Float;
+            if (aspeed == 0) {
+                apace = 0.0f;
+            } else {
+                apace = 1000 / 60 / aspeed;
+            }
         } else {
             aspeed = 0.0f;
+            apace = 0.0f;
         }
         if (info.altitude != null) {
             altitude = info.altitude as Float;
@@ -235,6 +265,19 @@ class RepaFieldView extends WatchUi.DataField {
             cadence = info.currentCadence as Number;
         } else {
             cadence = 0;
+        }
+
+        // convert units to imperial if needed
+        if (!isDistanceMetric) {
+            distance = distance / mileToKm;
+            toDestination = toDestination / mileToKm;
+            pace = pace * mileToKm;
+            apace = apace * mileToKm;
+        }
+        if (!isElevationMetric) {
+            altitude = altitude * meterToFeet;
+            egain = (egain * meterToFeet).toNumber();
+            edrop = (edrop * meterToFeet).toNumber();
         }
     }
 
@@ -303,7 +346,6 @@ class RepaFieldView extends WatchUi.DataField {
         // pace
         if (fPace != null) {
             if (speed != 0) {
-                var pace = 1000 / 60 / speed; // mps -> min/km
                 var pmin = pace.toNumber();
                 var psec = (pace - pmin) * 60;
                 fPace.setText(pmin.format("%2d") + ":" + psec.format("%02d"));
@@ -313,7 +355,6 @@ class RepaFieldView extends WatchUi.DataField {
         }
         if (fAPace != null) {
             if (aspeed != 0) {
-                var apace = 1000 / 60 / aspeed; // mps -> min/km
                 var apmin = apace.toNumber();
                 var apsec = (apace - apmin) * 60;
                 fAPace.setText(apmin.format("%2d") + ":" + apsec.format("%02d"));
