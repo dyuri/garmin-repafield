@@ -214,12 +214,12 @@ class RepaFieldView extends WatchUi.DataField {
         } else {
             timerState = Activity.TIMER_STATE_OFF;
         }
-        if (info.distanceToDestination != null) {
+        if (info has :distanceToDestination && info.distanceToDestination != null) {
             toDestination = info.distanceToDestination as Float;
         } else {
             toDestination = 0.0f;
         }
-        if (info.offCourseDistance != null) {
+        if (info has :offCourseDistance && info.offCourseDistance != null) {
             offCourse = info.offCourseDistance as Float;
         } else {
             offCourse = 0.0f;

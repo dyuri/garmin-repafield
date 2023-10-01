@@ -2,6 +2,7 @@
 /gen
 /mir
 /internal-mir
+/export
 RepaField.prg
 RepaField.prg.debug.xml
 RepaField-settings.json
