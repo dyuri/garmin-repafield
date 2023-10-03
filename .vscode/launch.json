@@ -4,7 +4,20 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "type": "monkeyc",
+            "request": "launch",
+            "name": "Run App - get device",
+            "stopAtLaunch": false,
+            "device": "${command:GetTargetDevice}"
+        },
+        {
+            "type": "monkeyc",
+            "request": "launch",
+            "name": "Run App - epix2",
+            "stopAtLaunch": false,
+            "device": "epix2"
+        },
         {
             "type": "monkeyc",
             "request": "launch",
@@ -32,6 +45,13 @@
             "name": "Run App - fr265",
             "stopAtLaunch": false,
             "device": "fr265"
+        },
+        {
+            "type": "monkeyc",
+            "request": "launch",
+            "name": "Run App - fr965",
+            "stopAtLaunch": false,
+            "device": "fr965"
         },
         {
             "type": "monkeyc",
