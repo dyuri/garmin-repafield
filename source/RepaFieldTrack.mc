@@ -48,7 +48,7 @@ class Track extends WatchUi.Drawable {
         var h = dc.getHeight();
         var astart = 150;
         var aend = 390;
-        dc.setPenWidth(4);
+        dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
         dc.setColor(0x555555, Graphics.COLOR_TRANSPARENT);
         dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, aend);
 

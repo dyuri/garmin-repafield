@@ -37,7 +37,7 @@ class HeartRate extends WatchUi.Drawable {
     }
 
     function draw(dc as Dc) as Void {
-        dc.setPenWidth(8);
+        dc.setPenWidth((dc.getHeight() * 0.02).toNumber());
         dc.setColor(0x555555, Graphics.COLOR_TRANSPARENT);
         var width = dc.getWidth();
         dc.drawLine(width * .1, y, width * .9, y);
