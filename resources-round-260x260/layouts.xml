@@ -5,7 +5,6 @@
         <drawable class="BgOverlay" id="BgOverlay">
             <param name="x">100</param>
             <param name="y">42</param>
-            <param name="w">180</param>
             <param name="h">160</param>
             <param name="d">-18</param>
         </drawable>
