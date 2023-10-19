@@ -4,4 +4,8 @@
     <string id="ThemeColorTitle">Primary Theme Color</string>
     <string id="ThemeColor2Title">Secondary Theme Color</string>
     <string id="ThemeColor3Title">Clock Color</string>
+    <string id="HrDisplayTitle">Heart Rate Display</string>
+    <string id="HrValue">Value</string>
+    <string id="HrPercentage">Percentage</string>
+    <string id="HrZone">Zone</string>
 </strings>

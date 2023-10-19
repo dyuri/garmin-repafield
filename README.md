@@ -19,4 +19,10 @@ Trail running focused Garmin watch DataField (for myself)
 - cadence
 - distance to destination gauge
 
+# Settings
+
+- 3 theme colors
+  - set primary theme color to 0 to use the HR color instead
+- HR display type (value, percentage, zone)
+
 ![RepaField running](./repafield1.png)

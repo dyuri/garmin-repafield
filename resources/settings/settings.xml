@@ -12,5 +12,12 @@
     <setting propertyKey="@Properties.themeColor3" title="@Strings.ThemeColor3Title">
         <settingConfig type="alphaNumeric" />
     </setting>
+    <setting propertyKey="@Properties.hrDisplay" title="@Strings.HrDisplayTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.HrValue</listEntry>
+            <listEntry value="1">@Strings.HrPercentage</listEntry>
+            <listEntry value="2">@Strings.HrZone</listEntry>
+        </settingConfig>
+    </setting>
 
 </settings>

@@ -6,17 +6,41 @@ import Toybox.WatchUi;
 import Toybox.System;
 import Toybox.Application;
 
+const HR_TYPE_PERCENT = 1;
+const HR_TYPE_ZONE = 2;
+
+function displayHr(hr as Number, type as Number, zones as Array<Number>) as String {
+    if (hr == 0) {
+        return "-";
+    } else if (type == 1) {
+        var maxHr = zones[zones.size() - 1];       
+        var percentage = (hr.toFloat() / maxHr) * 100;
+        return percentage.format("%.0f") + "%";
+    } else if (type == 2) {
+        var hrzsize = zones.size();
+        for (var i = 0; i < hrzsize; i++) {
+            if (hr < zones[i] || i == hrzsize - 1) {
+                return ((hr - zones[i - 1]) / (zones[i] - zones[i - 1]).toFloat() + i).format("%.1f");
+            }
+        }
+    } else { // type == 0 or anything else
+        return hr.format("%d");
+    }
+    return "?";
+}
+
 class RepaFieldView extends WatchUi.DataField {
 
     // settings
-    hidden var themeColor as Numeric;
-    hidden var themeColor2 as Numeric;
-    hidden var themeColor3 as Numeric;
-    hidden var hrZones as Array<Numeric>;
-    hidden var hrHist as Array<Numeric>;
-    hidden var hrZoneColors as Array<Numeric>;
-    hidden var cadenceZones as Array<Numeric>;
-    hidden var cadenceZoneColors as Array<Numeric>;
+    hidden var themeColor as Number;
+    hidden var themeColor2 as Number;
+    hidden var themeColor3 as Number;
+    hidden var hrDisplayType as Number;
+    hidden var hrZones as Array<Number>;
+    hidden var hrHist as Array<Number>;
+    hidden var hrZoneColors as Array<Number>;
+    hidden var cadenceZones as Array<Number>;
+    hidden var cadenceZoneColors as Array<Number>;
     hidden var isDistanceMetric as Boolean;
     hidden var isElevationMetric as Boolean;
     hidden var mileToKm as Float = 1.609344f;
@@ -65,6 +89,7 @@ class RepaFieldView extends WatchUi.DataField {
         themeColor = Application.Properties.getValue("themeColor").toNumberWithBase(16);
         themeColor2 = Application.Properties.getValue("themeColor2").toNumberWithBase(16);
         themeColor3 = Application.Properties.getValue("themeColor3").toNumberWithBase(16);
+        hrDisplayType = Application.Properties.getValue("hrDisplay").toNumber();
 
         hrValue = 0;
         ahrValue = 0;
@@ -167,9 +192,13 @@ class RepaFieldView extends WatchUi.DataField {
         fHrGraph.setHRZoneColors(hrZoneColors);
 
         // theme setup
-        fBgOverlay.setColor1(darken(themeColor, 4));
-        fBgOverlay.setColor2(darken(themeColor, 2));
-        fAPace.setColor(themeColor);
+        if (themeColor != 0) {
+            fBgOverlay.setColor1(darken(themeColor, 4));
+            fBgOverlay.setColor2(darken(themeColor, 2));
+            fAPace.setColor(themeColor);
+        } else {
+            fAPace.setColor(Graphics.COLOR_WHITE);
+        }
         fElevation.setColor(themeColor2);
         fElevationGain.setColor(themeColor2);
         fElevationLoss.setColor(themeColor2);
@@ -287,14 +316,21 @@ class RepaFieldView extends WatchUi.DataField {
         // HR value
         var hrColor = calculateZoneColor(hrValue, hrZones, hrZoneColors);
         fHr.setColor(hrColor);
-        fHr.setText(hrValue.format("%d"));
         fAHr.setColor(darken(calculateZoneColor(ahrValue, hrZones, hrZoneColors), 2));
-        fAHr.setText(ahrValue.format("%d"));
         fMHr.setColor(darken(calculateZoneColor(mhrValue, hrZones, hrZoneColors), 2));
-        fMHr.setText(mhrValue.format("%d"));
+
+        fHr.setText(displayHr(hrValue, hrDisplayType, hrZones));
+        fAHr.setText(displayHr(ahrValue, hrDisplayType, hrZones));
+        fMHr.setText(displayHr(mhrValue, hrDisplayType, hrZones));
+
         if (fHrGraph != null) {
             fHrGraph.setHRHist(hrHist);
             fHrGraph.setHRTicks(hrTicks);
+        }
+
+        if (themeColor == 0) {
+            fBgOverlay.setColor1(darken(hrColor, 4));
+            fBgOverlay.setColor2(darken(hrColor, 2));
         }
 
         // track
