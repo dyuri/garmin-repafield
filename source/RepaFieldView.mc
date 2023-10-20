@@ -19,7 +19,9 @@ function displayHr(hr as Number, type as Number, zones as Array<Number>) as Stri
     } else if (type == 2) {
         var hrzsize = zones.size();
         for (var i = 0; i < hrzsize; i++) {
-            if (hr < zones[i] || i == hrzsize - 1) {
+            if (i == 0 && hr < zones[i]) {
+                return "-";
+            } else if (hr < zones[i] || i == hrzsize - 1) {
                 return ((hr - zones[i - 1]) / (zones[i] - zones[i - 1]).toFloat() + i).format("%.1f");
             }
         }
