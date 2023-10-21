@@ -38,6 +38,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var themeColor2 as Number;
     hidden var themeColor3 as Number;
     hidden var hrDisplayType as Number;
+    hidden var speedNotPace as Boolean;
     hidden var hrZones as Array<Number>;
     hidden var hrHist as Array<Number>;
     hidden var hrZoneColors as Array<Number>;
@@ -45,6 +46,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var cadenceZoneColors as Array<Number>;
     hidden var isDistanceMetric as Boolean;
     hidden var isElevationMetric as Boolean;
+    hidden var isPaceMetric as Boolean;
     hidden var mileToKm as Float = 1.609344f;
     hidden var meterToFeet as Float = 3.28084f;
 
@@ -92,6 +94,7 @@ class RepaFieldView extends WatchUi.DataField {
         themeColor2 = Application.Properties.getValue("themeColor2").toNumberWithBase(16);
         themeColor3 = Application.Properties.getValue("themeColor3").toNumberWithBase(16);
         hrDisplayType = Application.Properties.getValue("hrDisplay").toNumber();
+        speedNotPace = Application.Properties.getValue("speedNotPace");
 
         hrValue = 0;
         ahrValue = 0;
@@ -119,6 +122,7 @@ class RepaFieldView extends WatchUi.DataField {
         var settings = System.getDeviceSettings();
         isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;
         isElevationMetric = settings.elevationUnits == System.UNIT_METRIC;
+        isPaceMetric = settings.paceUnits == System.UNIT_METRIC;
     }
 
     function tickHr(v as Number) {
@@ -256,22 +260,22 @@ class RepaFieldView extends WatchUi.DataField {
             offCourse = 0.0f;
         }
         if (info.currentSpeed != null) {
-            speed = info.currentSpeed as Float;
+            speed = info.currentSpeed * 3.6;
             if (speed == 0) {
                 pace = 0.0f;
             } else {
-                pace = 1000 / 60 / speed;
+                pace = 60 / speed;
             }
         } else {
             speed = 0.0f;
             pace = 0.0f;
         }
         if (info.averageSpeed != null) {
-            aspeed = info.averageSpeed as Float;
+            aspeed = info.averageSpeed * 3.6;
             if (aspeed == 0) {
                 apace = 0.0f;
             } else {
-                apace = 1000 / 60 / aspeed;
+                apace = 60 / aspeed;
             }
         } else {
             aspeed = 0.0f;
@@ -302,13 +306,17 @@ class RepaFieldView extends WatchUi.DataField {
         if (!isDistanceMetric) {
             distance = distance / mileToKm;
             toDestination = toDestination / mileToKm;
-            pace = pace * mileToKm;
-            apace = apace * mileToKm;
         }
         if (!isElevationMetric) {
             altitude = altitude * meterToFeet;
             egain = (egain * meterToFeet).toNumber();
             edrop = (edrop * meterToFeet).toNumber();
+        }
+        if (!isPaceMetric) {
+            pace = pace * mileToKm;
+            apace = apace * mileToKm;
+            speed = speed / mileToKm;
+            aspeed = aspeed / mileToKm;
         }
     }
 
@@ -383,21 +391,29 @@ class RepaFieldView extends WatchUi.DataField {
 
         // pace
         if (fPace != null) {
-            if (speed != 0) {
-                var pmin = pace.toNumber();
-                var psec = (pace - pmin) * 60;
-                fPace.setText(pmin.format("%2d") + ":" + psec.format("%02d"));
+            if (speedNotPace) {
+                fPace.setText(speed.format("%.1f"));
             } else {
-                fPace.setText("--:--");
+                if (speed != 0) {
+                    var pmin = pace.toNumber();
+                    var psec = (pace - pmin) * 60;
+                    fPace.setText(pmin.format("%2d") + ":" + psec.format("%02d"));
+                } else {
+                    fPace.setText("--:--");
+                }
             }
         }
         if (fAPace != null) {
-            if (aspeed != 0) {
-                var apmin = apace.toNumber();
-                var apsec = (apace - apmin) * 60;
-                fAPace.setText(apmin.format("%2d") + ":" + apsec.format("%02d"));
+            if (speedNotPace) {
+                fAPace.setText(aspeed.format("%.1f"));
             } else {
-                fAPace.setText("--:--");
+                if (aspeed != 0) {
+                    var apmin = apace.toNumber();
+                    var apsec = (apace - apmin) * 60;
+                    fAPace.setText(apmin.format("%2d") + ":" + apsec.format("%02d"));
+                } else {
+                    fAPace.setText("--:--");
+                }
             }
         }
 

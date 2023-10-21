@@ -1,6 +1,3 @@
-- settings
-  - pace/speed switch
-
 - cadence => vertical speed (might be a setting?)
   - also might save vertical speed to fit
 

@@ -8,4 +8,5 @@
     <string id="HrValue">Value</string>
     <string id="HrPercentage">Percentage</string>
     <string id="HrZone">Zone</string>
+    <string id="SpeedNotPace">Show speed instead of pace</string>
 </strings>

@@ -24,5 +24,6 @@ Trail running focused Garmin watch DataField (for myself)
 - 3 theme colors
   - set primary theme color to 0 to use the HR color instead
 - HR display type (value, percentage, zone)
+- Display speed instead of pace
 
 ![RepaField running](./repafield1.png)
