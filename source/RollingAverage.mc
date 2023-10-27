@@ -1,6 +1,7 @@
 import Toybox.Lang;
 import Toybox.Time;
 import Toybox.Math;
+import Toybox.System;
 
 class RollingAverage {
     hidden var _size as Number;

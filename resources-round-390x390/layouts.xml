@@ -3,7 +3,7 @@
     <layout id="MainLayout">
         <drawable class="Background"/>
         <drawable class="BgOverlay" id="BgOverlay">
-            <param name="x">140</param>
+            <param name="x">150</param>
             <param name="y">62</param>
             <param name="h">260</param>
             <param name="d">-32</param>

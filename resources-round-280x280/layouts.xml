@@ -3,7 +3,7 @@
     <layout id="MainLayout">
         <drawable class="Background"/>
         <drawable class="BgOverlay" id="BgOverlay">
-            <param name="x">100</param>
+            <param name="x">110</param>
             <param name="y">42</param>
             <param name="h">170</param>
             <param name="d">-18</param>
@@ -25,12 +25,12 @@
         <label id="time" x="50%" y="230" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
 
         <!-- distance/pace/avg pace -->
-        <label id="pace" x="230" y="40" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM"/>
-        <bitmap id="iconPace" filename="../resources/drawables/pace.png" x="228" y="68" />
-        <label id="apace" x="230" y="106" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE"/>
-        <bitmap id="iconAPace" filename="../resources/drawables/apace.png" x="228" y="114" />
-        <label id="distance" x="230" y="140" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
-        <label id="distanceLabel" x="232" y="156" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>
+        <label id="pace" x="240" y="40" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM"/>
+        <bitmap id="iconPace" filename="../resources/drawables/pace.png" x="238" y="68" />
+        <label id="apace" x="240" y="106" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE"/>
+        <bitmap id="iconAPace" filename="../resources/drawables/apace.png" x="238" y="114" />
+        <label id="distance" x="240" y="140" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
+        <label id="distanceLabel" x="242" y="156" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>
 
         <!-- cadence -->
         <bitmap id="iconCadence" filename="../resources/drawables/cadence.png" x="24" y="70" />

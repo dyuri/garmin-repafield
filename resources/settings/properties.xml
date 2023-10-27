@@ -5,5 +5,5 @@
     <property id="themeColor3" type="string">FFFF00</property>
     <property id="hrDisplay" type="number">0</property>
     <property id="speedNotPace" type="boolean">false</property>
-    <property id="tlFieldData" type="number">2</property>
+    <property id="tlFieldData" type="number">1</property>
 </properties>

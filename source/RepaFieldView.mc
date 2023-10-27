@@ -12,6 +12,7 @@ const HR_TYPE_ZONE = 2;
 const TLF_CADENCE = 0;
 const TLF_GRADE = 1;
 const TLF_GAP = 2;
+const TLF_VSPEED = 3;
 
 function displayHr(hr as Number, type as Number, zones as Array<Number>) as String {
     if (hr == 0) {
@@ -51,6 +52,8 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var cadenceZoneColors as Array<Number>;
     hidden var gradeZones as Array<Number>;
     hidden var gradeZoneColors as Array<Number>;
+    hidden var vsZones as Array<Number>;
+    hidden var vsZoneColors as Array<Number>;
     hidden var isDistanceMetric as Boolean;
     hidden var isElevationMetric as Boolean;
     hidden var isPaceMetric as Boolean;
@@ -94,6 +97,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var edrop as Number;
     hidden var cadence as Number;
     hidden var grade as RollingAverage;
+    hidden var vspeed as RollingAverage;
 
     function initialize() {
         DataField.initialize();
@@ -116,6 +120,8 @@ class RepaFieldView extends WatchUi.DataField {
         cadenceZoneColors = [Graphics.COLOR_RED, Graphics.COLOR_YELLOW, Graphics.COLOR_GREEN, Graphics.COLOR_BLUE, Graphics.COLOR_PURPLE];
         gradeZones = [-10, -1, 1, 3, 6, 10, 15];
         gradeZoneColors = [Graphics.COLOR_PINK, Graphics.COLOR_PURPLE, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
+        vsZones = [-16.6, -1.6, 1.6, 5.0, 10.0, 16.6, 25.0];
+        vsZoneColors = gradeZoneColors;
         toDestination = 0.0f;
         distance = 0.0f;
         timer = 0;
@@ -130,6 +136,7 @@ class RepaFieldView extends WatchUi.DataField {
         edrop = 0;
         cadence = 0;
         grade = new RollingAverage(10);
+        vspeed = new RollingAverage(10);
 
         var settings = System.getDeviceSettings();
         isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;
@@ -233,12 +240,25 @@ class RepaFieldView extends WatchUi.DataField {
         // update rolling values before updating normal fields
         // only calculate them when some time has passed
         if (info.timerTime != null && info.timerTime > 0) {
-            // grade
-            if (info.altitude != null && info.elapsedDistance != null) {
+            if (info.altitude != null) {
                 var altChange = info.altitude - altitude;
-                var distChange = info.elapsedDistance - distance;
-                if (distChange > 0) {
-                    grade.insert(altChange / distChange);
+
+                // grade
+                if (info.elapsedDistance != null) {
+                    var distChange = info.elapsedDistance - distance;
+                    if (distChange > 0) {
+                        grade.insert(altChange / distChange);
+                    }
+                }
+
+                // vspeed - m/min or ft/min
+                var timerChange = info.timerTime - timer;
+                if (timerChange > 0) {
+                    if (!isElevationMetric) {
+                        vspeed.insert(meterToFeet * altChange / (timerChange / 60000.0));
+                    } else {
+                        vspeed.insert(altChange / (timerChange / 60000.0));
+                    }
                 }
             }
         }
@@ -265,7 +285,7 @@ class RepaFieldView extends WatchUi.DataField {
             distance = 0.0f;
         }
         if (info.timerTime != null) {
-            timer = info.timerTime / 1000;
+            timer = info.timerTime;
         } else {
             timer = 0;
         }
@@ -384,9 +404,10 @@ class RepaFieldView extends WatchUi.DataField {
 
         // timer
         if (fTimer != null) {
-            var trh = timer / 3600;
-            var trm = (timer % 3600) / 60;
-            var trs = timer % 60;
+            var timersec = timer / 1000;
+            var trh = timersec / 3600;
+            var trm = (timersec % 3600) / 60;
+            var trs = timersec % 60;
             var timerColor = Graphics.COLOR_RED;
             if (timerState == Activity.TIMER_STATE_ON) {
                 timerColor = Graphics.COLOR_WHITE;
@@ -407,7 +428,9 @@ class RepaFieldView extends WatchUi.DataField {
 
         // distance
         if (fDistance != null) {
-            if (distance >= 10000) {
+            if (distance >= 100000) {
+                fDistance.setText((distance / 1000).format("%.0f"));
+            } else if (distance >= 10000) {
                 fDistance.setText((distance / 1000).format("%.1f"));
             } else {
                 fDistance.setText((distance / 1000).format("%.2f"));
@@ -475,6 +498,15 @@ class RepaFieldView extends WatchUi.DataField {
                     fCadence.setText(gapmin.format("%d") + ":" + gapsec.format("%02d"));
                 } else {
                     fCadence.setText("-");
+                }
+            } else if (tlFieldData == TLF_VSPEED) {
+                var cvspeed = vspeed.get();
+                var vsColor = calculateZoneColor(cvspeed, vsZones, vsZoneColors);
+                fCadence.setColor(vsColor);
+                if (cvspeed >= 10 || cvspeed <= -10) {
+                    fCadence.setText(cvspeed.format("%.0f"));
+                } else {
+                    fCadence.setText(cvspeed.format("%.1f"));
                 }
             } else {
                 var cadenceColor = calculateZoneColor(cadence, cadenceZones, cadenceZoneColors);

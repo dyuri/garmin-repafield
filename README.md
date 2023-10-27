@@ -16,8 +16,11 @@ Trail running focused Garmin watch DataField (for myself)
   - current
   - gain
   - loss
+- configurable top left field
+  - cadence
   - grade
-- cadence (instead of grade) TODO
+  - gap
+  - vertical speed
 - distance to destination gauge
 
 # Settings

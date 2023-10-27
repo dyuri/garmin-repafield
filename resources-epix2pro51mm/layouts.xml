@@ -25,11 +25,11 @@
         <label id="time" x="50%" y="375" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
 
         <!-- distance/pace/avg pace -->
-        <label id="pace" x="390" y="90" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MILD"/>
+        <label id="pace" x="390" y="82" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM"/>
         <bitmap id="iconPace" filename="../resources/drawables/pace.png" x="394" y="142" />
         <label id="apace" x="390" y="198" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE"/>
         <bitmap id="iconAPace" filename="../resources/drawables/apace.png" x="394" y="228" />
-        <label id="distance" x="390" y="264" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MILD" />
+        <label id="distance" x="390" y="250" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
         <label id="distanceLabel" x="392" y="276" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>
 
         <!-- cadence -->

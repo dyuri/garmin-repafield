@@ -24,7 +24,7 @@
             <listEntry value="0">@Strings.TLFCadence</listEntry>
             <listEntry value="1">@Strings.TLFGrade</listEntry>
             <listEntry value="2">@Strings.TLFGAP</listEntry>
-            <!-- listEntry value="3">@Strings.TLFVSpeed</listEntry -->
+            <listEntry value="3">@Strings.TLFVSpeed</listEntry>
         </settingConfig>
     </setting>
     <setting propertyKey="@Properties.speedNotPace" title="@Strings.SpeedNotPace">
