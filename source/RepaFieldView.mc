@@ -84,6 +84,8 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var ahrValue as Numeric;
     hidden var mhrValue as Numeric;
     hidden var toDestination as Float;
+    hidden var toNextPoint as Float;
+    hidden var nextPointName as String;
     hidden var distance as Float;
     hidden var timer as Numeric;
     hidden var timerState as Number;
@@ -123,6 +125,8 @@ class RepaFieldView extends WatchUi.DataField {
         vsZones = [-16.6, -1.6, 1.6, 5.0, 10.0, 16.6, 25.0];
         vsZoneColors = gradeZoneColors;
         toDestination = 0.0f;
+        toNextPoint = 0.0f;
+        nextPointName = "";
         distance = 0.0f;
         timer = 0;
         timerState = Activity.TIMER_STATE_OFF;
@@ -299,6 +303,16 @@ class RepaFieldView extends WatchUi.DataField {
         } else {
             toDestination = 0.0f;
         }
+        if (info has :distanceToNextPoint && info.distanceToNextPoint != null) {
+            toNextPoint = info.distanceToNextPoint as Float;
+        } else {
+            toNextPoint = 0.0f;
+        }
+        if (info has :nameOfNextPoint && info.nameOfNextPoint != null) {
+            nextPointName = info.nameOfNextPoint as String;
+        } else {
+            nextPointName = "";
+        }
         if (info has :offCourseDistance && info.offCourseDistance != null) {
             offCourse = info.offCourseDistance as Float;
         } else {
@@ -390,9 +404,7 @@ class RepaFieldView extends WatchUi.DataField {
 
         // track
         if (fTrack != null) {
-            fTrack.setToDestination(toDestination);
-            fTrack.setDistance(distance);
-            fTrack.setOffCourse(offCourse);
+            fTrack.setTrackData(toDestination, toNextPoint, distance, offCourse);
         }
 
         // time

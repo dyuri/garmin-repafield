@@ -6,6 +6,7 @@ import Toybox.Lang;
 class Track extends WatchUi.Drawable {
 
     hidden var _toDestination as Float;
+    hidden var _toNextPoint as Float;
     hidden var _distance as Float;
     hidden var _offCourse as Float;
 
@@ -17,6 +18,7 @@ class Track extends WatchUi.Drawable {
         Drawable.initialize(dictionary);
 
         _toDestination = 0.0f;
+        _toNextPoint = 0.0f;
         _distance = 0.0f;
         _offCourse = 0.0f;
     }
@@ -25,11 +27,22 @@ class Track extends WatchUi.Drawable {
         _toDestination = tdst;
     }
 
+    function setToNextPoint(tnp as Float) as Void {
+        _toNextPoint = tnp;
+    }
+
     function setDistance(dst as Float) as Void {
         _distance = dst;
     }
 
     function setOffCourse(off as Float) as Void {
+        _offCourse = off;
+    }
+
+    function setTrackData(tdst as Float, tnp as Float, dst as Float, off as Float) as Void {
+        _toDestination = tdst;
+        _toNextPoint = tnp;
+        _distance = dst;
         _offCourse = off;
     }
 
@@ -78,5 +91,20 @@ class Track extends WatchUi.Drawable {
             acurrent = aend;
         }
         dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, acurrent);
+
+        // next point
+        if (_toNextPoint > 0.0f) {
+            var nextPercentage = _toNextPoint / _toDestination;
+
+            var anext = acurrent + (aend - acurrent) * nextPercentage;
+            if (anext < astart + 1) {
+                anext = astart + 1;
+            } else if (anext > aend) {
+                anext = aend;
+            }
+            dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
+            dc.setColor(0xFFFF00, Graphics.COLOR_TRANSPARENT);
+            dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, acurrent, anext);
+        }
     }
 }
