@@ -9,6 +9,10 @@ import Toybox.Application;
 const HR_TYPE_PERCENT = 1;
 const HR_TYPE_ZONE = 2;
 
+const TLF_CADENCE = 0;
+const TLF_GRADE = 1;
+const TLF_GAP = 2;
+
 function displayHr(hr as Number, type as Number, zones as Array<Number>) as String {
     if (hr == 0) {
         return "-";
@@ -39,11 +43,14 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var themeColor3 as Number;
     hidden var hrDisplayType as Number;
     hidden var speedNotPace as Boolean;
+    hidden var tlFieldData as Number;
     hidden var hrZones as Array<Number>;
     hidden var hrHist as Array<Number>;
     hidden var hrZoneColors as Array<Number>;
     hidden var cadenceZones as Array<Number>;
     hidden var cadenceZoneColors as Array<Number>;
+    hidden var gradeZones as Array<Number>;
+    hidden var gradeZoneColors as Array<Number>;
     hidden var isDistanceMetric as Boolean;
     hidden var isElevationMetric as Boolean;
     hidden var isPaceMetric as Boolean;
@@ -86,6 +93,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var egain as Number;
     hidden var edrop as Number;
     hidden var cadence as Number;
+    hidden var grade as RollingAverage;
 
     function initialize() {
         DataField.initialize();
@@ -95,6 +103,7 @@ class RepaFieldView extends WatchUi.DataField {
         themeColor3 = Application.Properties.getValue("themeColor3").toNumberWithBase(16);
         hrDisplayType = Application.Properties.getValue("hrDisplay").toNumber();
         speedNotPace = Application.Properties.getValue("speedNotPace");
+        tlFieldData = Application.Properties.getValue("tlFieldData").toNumber();
 
         hrValue = 0;
         ahrValue = 0;
@@ -105,6 +114,8 @@ class RepaFieldView extends WatchUi.DataField {
         hrZoneColors = [Graphics.COLOR_DK_GRAY, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
         cadenceZones = [153, 163, 173, 183];
         cadenceZoneColors = [Graphics.COLOR_RED, Graphics.COLOR_YELLOW, Graphics.COLOR_GREEN, Graphics.COLOR_BLUE, Graphics.COLOR_PURPLE];
+        gradeZones = [-10, -1, 1, 3, 6, 10, 15];
+        gradeZoneColors = [Graphics.COLOR_PINK, Graphics.COLOR_PURPLE, Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLUE, Graphics.COLOR_GREEN, Graphics.COLOR_YELLOW, Graphics.COLOR_RED, Graphics.COLOR_DK_RED];
         toDestination = 0.0f;
         distance = 0.0f;
         timer = 0;
@@ -118,6 +129,7 @@ class RepaFieldView extends WatchUi.DataField {
         egain = 0;
         edrop = 0;
         cadence = 0;
+        grade = new RollingAverage(10);
 
         var settings = System.getDeviceSettings();
         isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;
@@ -218,18 +230,31 @@ class RepaFieldView extends WatchUi.DataField {
     }
 
     function compute(info as Activity.Info) as Void {
-        if(info.currentHeartRate != null) {
+        // update rolling values before updating normal fields
+        // only calculate them when some time has passed
+        if (info.timerTime != null && info.timerTime > 0) {
+            // grade
+            if (info.altitude != null && info.elapsedDistance != null) {
+                var altChange = info.altitude - altitude;
+                var distChange = info.elapsedDistance - distance;
+                if (distChange > 0) {
+                    grade.insert(altChange / distChange);
+                }
+            }
+        }
+        // update normal fields
+        if (info.currentHeartRate != null) {
             hrValue = info.currentHeartRate as Number;
             tickHr(hrValue);
         } else {
             hrValue = 0;
         }
-        if(info.averageHeartRate != null) {
+        if (info.averageHeartRate != null) {
             ahrValue = info.averageHeartRate as Number;
         } else {
             ahrValue = 0;
         }
-        if(info.maxHeartRate != null) {
+        if (info.maxHeartRate != null) {
             mhrValue = info.maxHeartRate as Number;
         } else {
             mhrValue = 0;
@@ -429,14 +454,36 @@ class RepaFieldView extends WatchUi.DataField {
             fElevationLoss.setText(edrop.format("%d"));
         }
 
-        // cadence
+        // TLF
         if (fCadence != null) {
-            var cadenceColor = darken(calculateZoneColor(cadence, cadenceZones, cadenceZoneColors), 1.5);
-            fCadence.setColor(cadenceColor);
-            if (cadence != 0) {
-                fCadence.setText(cadence.format("%d"));
+            if (tlFieldData == TLF_GRADE) {
+                var currentGrade = grade.get() * 100;
+                var gradeColor = calculateZoneColor(currentGrade, gradeZones, gradeZoneColors);
+                fCadence.setColor(gradeColor);
+                if (currentGrade >= 10 || currentGrade <= -10) {
+                    fCadence.setText(currentGrade.format("%.0f"));
+                } else {
+                    fCadence.setText(currentGrade.format("%.1f"));
+                }
+            } else if (tlFieldData == TLF_GAP) {
+                fCadence.setColor(themeColor2);
+                if (pace != 0) {
+                    var gap = adjustPaceForGrade(pace, grade.get());
+                    // TODO color
+                    var gapmin = gap.toNumber();
+                    var gapsec = (gap - gapmin) * 60;
+                    fCadence.setText(gapmin.format("%d") + ":" + gapsec.format("%02d"));
+                } else {
+                    fCadence.setText("-");
+                }
             } else {
-                fCadence.setText("-");
+                var cadenceColor = calculateZoneColor(cadence, cadenceZones, cadenceZoneColors);
+                fCadence.setColor(cadenceColor);
+                if (cadence != 0) {
+                    fCadence.setText(cadence.format("%d"));
+                } else {
+                    fCadence.setText("-");
+                }
             }
         }
 

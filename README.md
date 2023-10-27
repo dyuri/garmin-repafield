@@ -8,7 +8,7 @@ Trail running focused Garmin watch DataField (for myself)
   - current
   - max
   - histogram
-- pace
+- pace (or speed)
   - current
   - average
 - distance
@@ -16,7 +16,8 @@ Trail running focused Garmin watch DataField (for myself)
   - current
   - gain
   - loss
-- cadence
+  - grade
+- cadence (instead of grade) TODO
 - distance to destination gauge
 
 # Settings

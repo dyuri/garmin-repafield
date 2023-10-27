@@ -9,4 +9,9 @@
     <string id="HrPercentage">Percentage</string>
     <string id="HrZone">Zone</string>
     <string id="SpeedNotPace">Show speed instead of pace</string>
+    <string id="TLFieldData">Top-left field data</string>
+    <string id="TLFCadence">Cadence</string>
+    <string id="TLFGrade">Grade</string>
+    <string id="TLFGAP">Grade Adjusted Pace</string>
+    <string id="TLFVSpeed">Vertical Speed</string>
 </strings>

@@ -1,8 +1,9 @@
 <properties>
-    <property id="appVersion" type="string">1.1.2</property>
+    <property id="appVersion" type="string">1.2.0</property>
     <property id="themeColor" type="string">0</property>
     <property id="themeColor2" type="string">0088FF</property>
     <property id="themeColor3" type="string">FFFF00</property>
     <property id="hrDisplay" type="number">0</property>
     <property id="speedNotPace" type="boolean">false</property>
+    <property id="tlFieldData" type="number">2</property>
 </properties>

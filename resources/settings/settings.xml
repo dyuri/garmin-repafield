@@ -19,6 +19,14 @@
             <listEntry value="2">@Strings.HrZone</listEntry>
         </settingConfig>
     </setting>
+    <setting propertyKey="@Properties.tlFieldData" title="@Strings.TLFieldData">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.TLFCadence</listEntry>
+            <listEntry value="1">@Strings.TLFGrade</listEntry>
+            <listEntry value="2">@Strings.TLFGAP</listEntry>
+            <!-- listEntry value="3">@Strings.TLFVSpeed</listEntry -->
+        </settingConfig>
+    </setting>
     <setting propertyKey="@Properties.speedNotPace" title="@Strings.SpeedNotPace">
         <settingConfig type="boolean" />
     </setting>
