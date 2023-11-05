@@ -10,9 +10,13 @@
     <string id="HrZone">Zone</string>
     <string id="SpeedNotPace">Show speed instead of pace</string>
     <string id="ShowNextPoint">Show next navigation point name (only on newer devices w/ high resolution)</string>
+    <string id="SaveToFit">Save calculated data to FIT file (grade, GAP, vertical speed)</string>
     <string id="TLFieldData">Top-left field data</string>
     <string id="TLFCadence">Cadence</string>
     <string id="TLFGrade">Grade</string>
     <string id="TLFGAP">Grade Adjusted Pace</string>
     <string id="TLFVSpeed">Vertical Speed</string>
+    <string id="uGrade">%</string>
+    <string id="uGAP">min/km</string>
+    <string id="uVSpeed">m/min</string>
 </strings>

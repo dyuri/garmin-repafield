@@ -1,4 +1,5 @@
 import Toybox.Activity;
+import Toybox.FitContributor;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.UserProfile;
@@ -13,6 +14,10 @@ const TLF_CADENCE = 0;
 const TLF_GRADE = 1;
 const TLF_GAP = 2;
 const TLF_VSPEED = 3;
+
+const FIT_GRADE_ID = 0;
+const FIT_GAP_ID = 1;
+const FIT_VSPEED_ID = 2;
 
 function displayHr(hr as Number, type as Number, zones as Array<Number>) as String {
     if (hr == 0) {
@@ -79,6 +84,11 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var fMHr;
     hidden var fHrGraph;
 
+    // fit
+    hidden var fitGrade;
+    hidden var fitGAP;
+    hidden var fitVSpeed;
+
     // values
     hidden var hrTicks as Number;
     hidden var hrValue as Numeric;
@@ -100,7 +110,10 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var edrop as Number;
     hidden var cadence as Number;
     hidden var grade as RollingAverage;
+    hidden var cgrade as Float;
     hidden var vspeed as RollingAverage;
+    hidden var cvspeed as Float;
+    hidden var gap as Float;
 
     function initialize() {
         DataField.initialize();
@@ -142,12 +155,49 @@ class RepaFieldView extends WatchUi.DataField {
         edrop = 0;
         cadence = 0;
         grade = new RollingAverage(10);
+        cgrade = 0.0f;
         vspeed = new RollingAverage(10);
+        cvspeed = 0.0f;
+        gap = 0.0f;
 
         var settings = System.getDeviceSettings();
         isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;
         isElevationMetric = settings.elevationUnits == System.UNIT_METRIC;
         isPaceMetric = settings.paceUnits == System.UNIT_METRIC;
+
+        // fit fields
+        fitGrade = null;
+        fitGAP = null;
+        fitVSpeed = null;
+        if (Application.Properties.getValue("saveToFit")) {
+            fitGrade = DataField.createField(
+                "grade",
+                FIT_GRADE_ID,
+                FitContributor.DATA_TYPE_FLOAT,
+                {
+                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :units=>"%",
+                }
+            );
+            fitGAP = DataField.createField(
+                "gap",
+                FIT_GAP_ID,
+                FitContributor.DATA_TYPE_FLOAT,
+                {
+                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :units=>isPaceMetric ? "min/km" : "min/mi",
+                }
+            );
+            fitVSpeed = DataField.createField(
+                "vspeed",
+                FIT_VSPEED_ID,
+                FitContributor.DATA_TYPE_FLOAT,
+                {
+                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :units=>isElevationMetric ? "m/min" : "ft/min",
+                }
+            );
+        }
     }
 
     function tickHr(v as Number) {
@@ -255,6 +305,7 @@ class RepaFieldView extends WatchUi.DataField {
                     if (distChange > 0) {
                         grade.insert(altChange / distChange);
                     }
+                    cgrade = grade.get() * 100;
                 }
 
                 // vspeed - m/min or ft/min
@@ -265,6 +316,7 @@ class RepaFieldView extends WatchUi.DataField {
                     } else {
                         vspeed.insert(altChange / (timerChange / 60000.0));
                     }
+                    cvspeed = vspeed.get();
                 }
             }
         }
@@ -363,6 +415,8 @@ class RepaFieldView extends WatchUi.DataField {
             cadence = 0;
         }
 
+        gap = adjustPaceForGrade(pace, cgrade / 100);
+
         // convert units to imperial if needed
         if (!isDistanceMetric) {
             distance = distance / mileToKm;
@@ -378,6 +432,17 @@ class RepaFieldView extends WatchUi.DataField {
             apace = apace * mileToKm;
             speed = speed / mileToKm;
             aspeed = aspeed / mileToKm;
+        }
+
+        // fit update
+        if (fitGrade != null) {
+            fitGrade.setData(cgrade);
+        }
+        if (fitGAP != null) {
+            fitGAP.setData(gap);
+        }
+        if (fitVSpeed != null) {
+            fitVSpeed.setData(cvspeed);
         }
     }
 
@@ -494,18 +559,16 @@ class RepaFieldView extends WatchUi.DataField {
         // TLF
         if (fCadence != null) {
             if (tlFieldData == TLF_GRADE) {
-                var currentGrade = grade.get() * 100;
-                var gradeColor = calculateZoneColor(currentGrade, gradeZones, gradeZoneColors);
+                var gradeColor = calculateZoneColor(cgrade, gradeZones, gradeZoneColors);
                 fCadence.setColor(gradeColor);
-                if (currentGrade >= 10 || currentGrade <= -10) {
-                    fCadence.setText(currentGrade.format("%.0f"));
+                if (cgrade >= 10 || cgrade <= -10) {
+                    fCadence.setText(cgrade.format("%.0f"));
                 } else {
-                    fCadence.setText(currentGrade.format("%.1f"));
+                    fCadence.setText(cgrade.format("%.1f"));
                 }
             } else if (tlFieldData == TLF_GAP) {
                 fCadence.setColor(themeColor2);
                 if (pace != 0) {
-                    var gap = adjustPaceForGrade(pace, grade.get());
                     // TODO color
                     var gapmin = gap.toNumber();
                     var gapsec = (gap - gapmin) * 60;
@@ -514,7 +577,6 @@ class RepaFieldView extends WatchUi.DataField {
                     fCadence.setText("-");
                 }
             } else if (tlFieldData == TLF_VSPEED) {
-                var cvspeed = vspeed.get();
                 var vsColor = calculateZoneColor(cvspeed, vsZones, vsZoneColors);
                 fCadence.setColor(vsColor);
                 if (cvspeed >= 10 || cvspeed <= -10) {

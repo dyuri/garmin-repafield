@@ -1,0 +1,23 @@
+<fitContributions>
+  <fitField id="0"
+    displayInChart="true"
+    sortOrder="0"
+    precision="2"
+    dataLabel="@Strings.TFLGrade"
+    unitLabel="@Strings.uGrade"
+    fillColor="#00FFFF" />
+  <fitField id="1"
+    displayInChart="true"
+    sortOrder="1"
+    precision="2"
+    dataLabel="@Strings.TFLGAP"
+    unitLabel="@Strings.uGAP"
+    fillColor="#AAFF44" />
+  <fitField id="2"
+    displayInChart="true"
+    sortOrder="2"
+    precision="2"
+    dataLabel="@Strings.TFLVSpeed"
+    unitLabel="@Strings.uVSpeed"
+    fillColor="#FF8888" />
+</fitContributions>
