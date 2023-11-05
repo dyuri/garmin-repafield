@@ -44,6 +44,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var themeColor3 as Number;
     hidden var hrDisplayType as Number;
     hidden var speedNotPace as Boolean;
+    hidden var showNextPoint as Boolean;
     hidden var tlFieldData as Number;
     hidden var hrZones as Array<Number>;
     hidden var hrHist as Array<Number>;
@@ -109,6 +110,7 @@ class RepaFieldView extends WatchUi.DataField {
         themeColor3 = Application.Properties.getValue("themeColor3").toNumberWithBase(16);
         hrDisplayType = Application.Properties.getValue("hrDisplay").toNumber();
         speedNotPace = Application.Properties.getValue("speedNotPace");
+        showNextPoint = Application.Properties.getValue("showNextPoint");
         tlFieldData = Application.Properties.getValue("tlFieldData").toNumber();
 
         hrValue = 0;
@@ -404,7 +406,7 @@ class RepaFieldView extends WatchUi.DataField {
 
         // track
         if (fTrack != null) {
-            fTrack.setTrackData(toDestination, toNextPoint, distance, offCourse);
+            fTrack.setTrackData(toDestination, toNextPoint, distance, offCourse, nextPointName, showNextPoint);
         }
 
         // time

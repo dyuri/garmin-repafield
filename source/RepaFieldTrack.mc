@@ -9,6 +9,9 @@ class Track extends WatchUi.Drawable {
     hidden var _toNextPoint as Float;
     hidden var _distance as Float;
     hidden var _offCourse as Float;
+    hidden var _nextPointName as String;
+    hidden var _showNextPoint as Boolean;
+    hidden var _font;
 
     function initialize() {
         var dictionary = {
@@ -21,29 +24,23 @@ class Track extends WatchUi.Drawable {
         _toNextPoint = 0.0f;
         _distance = 0.0f;
         _offCourse = 0.0f;
+        _nextPointName = "";
+        _showNextPoint = true;
+
+        if (Graphics has :getVectorFont) {
+            _font = Graphics.getVectorFont({:face => "RobotoCondensedRegular", :size => 24});
+        } else {
+            _font = null;
+        }
     }
 
-    function setToDestination(tdst as Float) as Void {
-        _toDestination = tdst;
-    }
-
-    function setToNextPoint(tnp as Float) as Void {
-        _toNextPoint = tnp;
-    }
-
-    function setDistance(dst as Float) as Void {
-        _distance = dst;
-    }
-
-    function setOffCourse(off as Float) as Void {
-        _offCourse = off;
-    }
-
-    function setTrackData(tdst as Float, tnp as Float, dst as Float, off as Float) as Void {
+    function setTrackData(tdst as Float, tnp as Float, dst as Float, off as Float, nextPointName as String, showNextPoint as Boolean) as Void {
         _toDestination = tdst;
         _toNextPoint = tnp;
         _distance = dst;
         _offCourse = off;
+        _nextPointName = nextPointName;
+        _showNextPoint = showNextPoint;
     }
 
     function draw(dc as Dc) as Void {
@@ -105,6 +102,22 @@ class Track extends WatchUi.Drawable {
             dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
             dc.setColor(0xFFFF00, Graphics.COLOR_TRANSPARENT);
             dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, acurrent, anext);
+
+            // next point name
+            if (_showNextPoint && _font != null && h > 350) {
+                var pointText = (_toNextPoint / 1000.0).format("%.1f");
+                if (_nextPointName.length() > 0 && _nextPointName.length() <= 20) {
+                    pointText += " | " + _nextPointName;
+                } else if (_nextPointName.length() > 20) {
+                    pointText += " | " + _nextPointName.substring(0, 17) + "...";
+                }
+                if (_toNextPoint > 1000) {
+                    dc.setColor(0x88FFFF, Graphics.COLOR_TRANSPARENT);
+                } else {
+                    dc.setColor(0xAAFF44, Graphics.COLOR_TRANSPARENT);
+                }
+                dc.drawRadialText(w / 2, h / 2, _font, pointText, Graphics.TEXT_JUSTIFY_CENTER, 270, h / 2 - 12, Graphics.RADIAL_TEXT_DIRECTION_COUNTER_CLOCKWISE);
+            }
         }
     }
 }

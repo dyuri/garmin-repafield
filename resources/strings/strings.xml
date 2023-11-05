@@ -9,6 +9,7 @@
     <string id="HrPercentage">Percentage</string>
     <string id="HrZone">Zone</string>
     <string id="SpeedNotPace">Show speed instead of pace</string>
+    <string id="ShowNextPoint">Show next navigation point name (only on newer devices w/ high resolution)</string>
     <string id="TLFieldData">Top-left field data</string>
     <string id="TLFCadence">Cadence</string>
     <string id="TLFGrade">Grade</string>
