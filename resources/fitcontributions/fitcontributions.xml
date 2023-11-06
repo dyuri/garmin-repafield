@@ -3,21 +3,25 @@
     displayInChart="true"
     sortOrder="0"
     precision="2"
-    dataLabel="@Strings.TFLGrade"
+    chartTitle="@Strings.chartGrade"
+    dataLabel="@Strings.chartGrade"
     unitLabel="@Strings.uGrade"
     fillColor="#00FFFF" />
   <fitField id="1"
     displayInChart="true"
     sortOrder="1"
     precision="2"
-    dataLabel="@Strings.TFLGAP"
+    chartTitle="@Strings.chartGAP"
+    dataLabel="@Strings.chartGAP"
     unitLabel="@Strings.uGAP"
     fillColor="#AAFF44" />
   <fitField id="2"
     displayInChart="true"
     sortOrder="2"
     precision="2"
-    dataLabel="@Strings.TFLVSpeed"
+    chartTitle="@Strings.chartVSpeed"
+    dataLabel="@Strings.chartVSpeed"
     unitLabel="@Strings.uVSpeed"
     fillColor="#FF8888" />
+  <!-- TODO average GAP, max/min grade, max/min vspeed -->
 </fitContributions>

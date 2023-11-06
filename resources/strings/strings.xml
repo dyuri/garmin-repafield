@@ -19,4 +19,7 @@
     <string id="uGrade">%</string>
     <string id="uGAP">min/km</string>
     <string id="uVSpeed">m/min</string>
+    <string id="chartGrade">Grade</string>
+    <string id="chartGAP">Grade Adjusted Pace</string>
+    <string id="chartVSpeed">Vertical Speed</string>
 </strings>
