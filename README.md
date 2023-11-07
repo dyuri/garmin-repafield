@@ -45,4 +45,5 @@ Trail running focused Garmin watch DataField (for myself)
 - Display speed instead of pace
 - Show next navigation point
 
-![RepaField running](./repafield1.png)
+![RepaField running](./repafield1.jpg)
+![RepaField running](./repafield2.jpg)
