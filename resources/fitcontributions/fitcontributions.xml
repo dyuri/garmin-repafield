@@ -1,4 +1,5 @@
 <fitContributions>
+  <!-- grade -->
   <fitField id="0"
     displayInChart="true"
     sortOrder="0"
@@ -7,6 +8,31 @@
     dataLabel="@Strings.chartGrade"
     unitLabel="@Strings.uGrade"
     fillColor="#00FFFF" />
+  <fitField id="5"
+    displayInActivitySummary="true"
+    sortOrder="5"
+    precision="2"
+    dataLabel="@Strings.fitMinGrade"
+    unitLabel="@Strings.uGrade" />
+  <fitField id="6"
+    displayInActivitySummary="true"
+    sortOrder="6"
+    precision="2"
+    dataLabel="@Strings.fitMaxGrade"
+    unitLabel="@Strings.uGrade" />
+  <fitField id="7"
+    displayInActivitySummary="true"
+    sortOrder="7"
+    precision="2"
+    dataLabel="@Strings.fitAGrade"
+    unitLabel="@Strings.uGrade" />
+  <fitField id="8"
+    displayInActivityLaps="true"
+    sortOrder="8"
+    precision="2"
+    dataLabel="@Strings.fitAGrade"
+    unitLabel="@Strings.uGrade" />
+  <!-- GAP -->
   <fitField id="1"
     displayInChart="true"
     sortOrder="1"
@@ -15,6 +41,19 @@
     dataLabel="@Strings.chartGAP"
     unitLabel="@Strings.uGAP"
     fillColor="#AAFF44" />
+  <fitField id="3"
+    displayInActivitySummary="true"
+    sortOrder="3"
+    precision="2"
+    dataLabel="@Strings.fitAGAP"
+    unitLabel="@Strings.uGAP" />
+  <fitField id="4"
+    displayInActivityLaps="true"
+    sortOrder="4"
+    precision="2"
+    dataLabel="@Strings.fitAGAP"
+    unitLabel="@Strings.uGAP" />
+  <!-- vertical speed -->
   <fitField id="2"
     displayInChart="true"
     sortOrder="2"
@@ -23,5 +62,28 @@
     dataLabel="@Strings.chartVSpeed"
     unitLabel="@Strings.uVSpeed"
     fillColor="#FF8888" />
-  <!-- TODO average GAP, max/min grade, max/min vspeed -->
+  <fitField id="9"
+    displayInActivitySummary="true"
+    sortOrder="9"
+    precision="2"
+    dataLabel="@Strings.fitMinVSpeed"
+    unitLabel="@Strings.uVSpeed" />
+  <fitField id="10"
+    displayInActivitySummary="true"
+    sortOrder="10"
+    precision="2"
+    dataLabel="@Strings.fitMaxVSpeed"
+    unitLabel="@Strings.uVSpeed" />
+  <fitField id="11"
+    displayInActivitySummary="true"
+    sortOrder="11"
+    precision="2"
+    dataLabel="@Strings.fitAVSpeed"
+    unitLabel="@Strings.uVSpeed" />
+  <fitField id="12"
+    displayInActivityLaps="true"
+    sortOrder="12"
+    precision="2"
+    dataLabel="@Strings.fitAVSpeed"
+    unitLabel="@Strings.uVSpeed" />
 </fitContributions>

@@ -58,8 +58,9 @@ class Track extends WatchUi.Drawable {
         var h = dc.getHeight();
         var astart = 150;
         var aend = 390;
+        var offtrack = _offCourse > 50.0f;
         dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
-        dc.setColor(0x555555, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(offtrack ? 0x880000 : 0x555555, Graphics.COLOR_TRANSPARENT);
         dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, aend);
 
         if (trackPercentage <= 0.0f) {
@@ -67,7 +68,7 @@ class Track extends WatchUi.Drawable {
         }
 
         // color
-        if (_offCourse > 50.0f) {
+        if (offtrack) {
             dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
         } else if (trackPercentage < 0.2) {
             dc.setColor(0x8800FF, Graphics.COLOR_TRANSPARENT);
@@ -100,7 +101,7 @@ class Track extends WatchUi.Drawable {
                 anext = aend;
             }
             dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
-            dc.setColor(0xFFFF00, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(offtrack ? 0xAA0000 : 0xAAAAAA, Graphics.COLOR_TRANSPARENT);
             dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, acurrent, anext);
 
             // next point name

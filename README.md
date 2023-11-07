@@ -26,6 +26,12 @@ Trail running focused Garmin watch DataField (for myself)
   - distance
   - name
 
+# FIT data
+
+- grade
+- GAP
+- vertical speed
+
 # Settings
 
 - 3 theme colors

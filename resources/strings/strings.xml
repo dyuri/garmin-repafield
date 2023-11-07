@@ -22,4 +22,11 @@
     <string id="chartGrade">Grade</string>
     <string id="chartGAP">Grade Adjusted Pace</string>
     <string id="chartVSpeed">Vertical Speed</string>
+    <string id="fitAGrade">Grade (average)</string>
+    <string id="fitMinGrade">Grade (min)</string>
+    <string id="fitMaxGrade">Grade (max)</string>
+    <string id="fitAGAP">Grade Adjusted Pace (average)</string>
+    <string id="fitAVSpeed">Vertical Speed (average)</string>
+    <string id="fitMinVSpeed">Vertical Speed (min)</string>
+    <string id="fitMaxVSpeed">Vertical Speed (max)</string>
 </strings>
