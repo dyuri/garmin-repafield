@@ -1,0 +1,14 @@
+info face=repafield-icons size=12 unicode=1 bold=0 italic=0 stretchH=100 aa=100 padding=0,0,0,0 spacing=0,0
+common lineHeight=24 base=24 scaleW=168 scaleH=168 pages=1
+page id=0 file=repafield-icons.png
+chars count=10
+char id=48 x=0 y=0 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=49 x=24 y=0 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=50 x=48 y=0 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=51 x=72 y=0 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=52 x=96 y=0 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=53 x=0 y=24 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=54 x=24 y=24 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=55 x=48 y=24 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=56 x=72 y=24 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15
+char id=57 x=96 y=24 width=24 height=24 xoffset=0 yoffset=0 xadvance=30 page=0 chnl=15

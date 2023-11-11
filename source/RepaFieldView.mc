@@ -84,7 +84,8 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var fElevation;
     hidden var fElevationGain;
     hidden var fElevationLoss;
-    hidden var fCadence;
+    hidden var fTL;
+    hidden var fTLIcon;
     hidden var fDistance;
     hidden var fTime;
     hidden var fTimer;
@@ -349,7 +350,8 @@ class RepaFieldView extends WatchUi.DataField {
         fTime = View.findDrawableById("time") as Text;
         fTimer = View.findDrawableById("timerHM") as Text;
         fTimerSec = View.findDrawableById("timerS") as Text;
-        fCadence = View.findDrawableById("cadence") as Text;
+        fTL = View.findDrawableById("cadence") as Text;
+        fTLIcon = View.findDrawableById("iconCadence") as Text;
         fDistance = View.findDrawableById("distance") as Text;
         fHr = View.findDrawableById("hr") as Text;
         fAHr = View.findDrawableById("ahr") as Text;
@@ -557,6 +559,17 @@ class RepaFieldView extends WatchUi.DataField {
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
     function onUpdate(dc as Dc) as Void {
+        // BG color
+        var bgColor = getBackgroundColor();
+        var fgColor = bgColor == Graphics.COLOR_WHITE ? Graphics.COLOR_BLACK : Graphics.COLOR_WHITE;
+        (View.findDrawableById("Background") as Background).setColor(bgColor);
+        
+        // Left icons
+        fTLIcon.setColor(fgColor);
+        (View.findDrawableById("iconHills") as Text).setColor(fgColor);
+        (View.findDrawableById("iconEGain") as Text).setColor(fgColor);
+        (View.findDrawableById("iconELoss") as Text).setColor(fgColor);
+
         // HR value
         var hrColor = calculateZoneColor(hrValue, hrZones, hrZoneColors);
         fHr.setColor(hrColor);
@@ -597,7 +610,7 @@ class RepaFieldView extends WatchUi.DataField {
             var trs = timersec % 60;
             var timerColor = Graphics.COLOR_RED;
             if (timerState == Activity.TIMER_STATE_ON) {
-                timerColor = Graphics.COLOR_WHITE;
+                timerColor = fgColor;
             } else if (timerState == Activity.TIMER_STATE_PAUSED) {
                 timerColor = Graphics.COLOR_YELLOW;
             }
@@ -665,48 +678,51 @@ class RepaFieldView extends WatchUi.DataField {
         }
 
         // TLF
-        if (fCadence != null) {
+        if (fTLIcon != null) {
+            fTLIcon.setText((5 + tlFieldData).format("%d"));
+        }
+        if (fTL != null) {
             if (tlFieldData == TLF_GRADE) {
                 if (cgrade != null) {
                     var gradeColor = calculateZoneColor(cgrade, gradeZones, gradeZoneColors);
-                    fCadence.setColor(gradeColor);
+                    fTL.setColor(gradeColor);
                     if (cgrade >= 10 || cgrade <= -10) {
-                        fCadence.setText(cgrade.format("%.0f"));
+                        fTL.setText(cgrade.format("%.0f"));
                     } else {
-                        fCadence.setText(cgrade.format("%.1f"));
+                        fTL.setText(cgrade.format("%.1f"));
                     }
                 } else {
-                    fCadence.setText("-");
+                    fTL.setText("-");
                 }
             } else if (tlFieldData == TLF_GAP) {
-                fCadence.setColor(themeColor2);
+                fTL.setColor(themeColor2);
                 if (pace != 0 && cgap != null) {
                     // TODO color
                     var gapmin = cgap.toNumber();
                     var gapsec = (cgap - gapmin) * 60;
-                    fCadence.setText(gapmin.format("%d") + ":" + gapsec.format("%02d"));
+                    fTL.setText(gapmin.format("%d") + ":" + gapsec.format("%02d"));
                 } else {
-                    fCadence.setText("-");
+                    fTL.setText("-");
                 }
             } else if (tlFieldData == TLF_VSPEED) {
                 if (cvspeed != null) {
                     var vsColor = calculateZoneColor(cvspeed, vsZones, vsZoneColors);
-                    fCadence.setColor(vsColor);
+                    fTL.setColor(vsColor);
                     if (cvspeed >= 10 || cvspeed <= -10) {
-                        fCadence.setText(cvspeed.format("%.0f"));
+                        fTL.setText(cvspeed.format("%.0f"));
                     } else {
-                        fCadence.setText(cvspeed.format("%.1f"));
+                        fTL.setText(cvspeed.format("%.1f"));
                     }
                 } else {
-                    fCadence.setText("-");
+                    fTL.setText("-");
                 }
             } else {
                 var cadenceColor = calculateZoneColor(cadence, cadenceZones, cadenceZoneColors);
-                fCadence.setColor(cadenceColor);
+                fTL.setColor(cadenceColor);
                 if (cadence != 0) {
-                    fCadence.setText(cadence.format("%d"));
+                    fTL.setText(cadence.format("%d"));
                 } else {
-                    fCadence.setText("-");
+                    fTL.setText("-");
                 }
             }
         }

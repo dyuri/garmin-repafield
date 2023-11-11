@@ -2,7 +2,7 @@
     <property id="appVersion" type="string">2.0.0</property>
     <property id="themeColor" type="string">0</property>
     <property id="themeColor2" type="string">0088FF</property>
-    <property id="themeColor3" type="string">FFFF00</property>
+    <property id="themeColor3" type="string">00AA55</property>
     <property id="hrDisplay" type="number">0</property>
     <property id="speedNotPace" type="boolean">false</property>
     <property id="showNextPoint" type="boolean">true</property>

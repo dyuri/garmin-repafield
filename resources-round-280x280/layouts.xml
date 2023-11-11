@@ -26,22 +26,22 @@
 
         <!-- distance/pace/avg pace -->
         <label id="pace" x="240" y="40" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM"/>
-        <bitmap id="iconPace" filename="../resources/drawables/pace.png" x="238" y="68" />
+        <label id="iconPace" x="238" y="68" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="1" />
         <label id="apace" x="240" y="106" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE"/>
-        <bitmap id="iconAPace" filename="../resources/drawables/apace.png" x="238" y="114" />
+        <label id="iconAPace" x="238" y="114" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="2" />
         <label id="distance" x="240" y="140" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MEDIUM" />
         <label id="distanceLabel" x="242" y="156" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>
 
         <!-- cadence -->
-        <bitmap id="iconCadence" filename="../resources/drawables/cadence.png" x="24" y="70" />
+        <label id="iconCadence" x="20" y="66" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="5" />
         <label id="cadence" x="42" y="58" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM" />
 
         <!-- elevation, egain -->
-        <bitmap id="iconHills" filename="../resources/drawables/hills_sm.png" x="12" y="92" />
+        <label id="iconHills" x="12" y="92" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="0" />
         <label id="elevation" x="42" y="86" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <bitmap id="iconEGain" filename="../resources/drawables/e_gain_sm.png" x="12" y="120" />
+        <label id="iconEGain" x="12" y="120" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="3" />
         <label id="elevationGain" x="42" y="114" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
-        <bitmap id="iconELoss" filename="../resources/drawables/e_loss_sm.png" x="12" y="148" />
+        <label id="iconELoss" x="12" y="148" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="4" />
         <label id="elevationLoss" x="42" y="142" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
 
     </layout>
