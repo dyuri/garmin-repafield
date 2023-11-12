@@ -16,18 +16,12 @@ const TLF_GAP = 2;
 const TLF_VSPEED = 3;
 
 const FIT_GRADE_ID = 0;
-const FIT_GRADE_SUM_MIN_ID = 5;
-const FIT_GRADE_SUM_MAX_ID = 6;
-const FIT_GRADE_SUM_AVG_ID = 7;
-const FIT_GRADE_LAP_AVG_ID = 8;
+const FIT_GRADE_SUM_AVG_ID = 3;
+const FIT_GRADE_LAP_AVG_ID = 4;
 const FIT_GAP_ID = 1;
-const FIT_GAP_SUM_AVG_ID = 3;
-const FIT_GAP_LAP_AVG_ID = 4;
 const FIT_VSPEED_ID = 2;
-const FIT_VSPEED_SUM_MIN_ID = 9;
-const FIT_VSPEED_SUM_MAX_ID = 10;
-const FIT_VSPEED_SUM_AVG_ID = 11;
-const FIT_VSPEED_LAP_AVG_ID = 12;
+const FIT_VSPEED_SUM_AVG_ID = 5;
+const FIT_VSPEED_LAP_AVG_ID = 6;
 
 function displayHr(hr as Number, type as Number, zones as Array<Number>) as String {
     if (hr == 0) {
@@ -191,7 +185,7 @@ class RepaFieldView extends WatchUi.DataField {
         fitVSpeedSumAvg = null;
         fitVSpeedLapAvg = null;
         if (Application.Properties.getValue("saveToFit")) {
-            fitGrade = DataField.createField(
+            fitGrade = createField(
                 "grade",
                 FIT_GRADE_ID,
                 FitContributor.DATA_TYPE_FLOAT,
@@ -200,25 +194,25 @@ class RepaFieldView extends WatchUi.DataField {
                     :units=>"%",
                 }
             );
-            fitGradeSumAvg = DataField.createField(
+            fitGradeSumAvg = createField(
                 "avg_grade",
                 FIT_GRADE_SUM_AVG_ID,
                 FitContributor.DATA_TYPE_FLOAT,
                 {
-                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :mesgType=>FitContributor.MESG_TYPE_SESSION,
                     :units=>"%",
                 }
             );
-            fitGradeLapAvg = DataField.createField(
-                "avg_grade",
+            fitGradeLapAvg = createField(
+                "lap_avg_grade",
                 FIT_GRADE_LAP_AVG_ID,
                 FitContributor.DATA_TYPE_FLOAT,
                 {
-                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :mesgType=>FitContributor.MESG_TYPE_LAP,
                     :units=>"%",
                 }
             );
-            fitGAP = DataField.createField(
+            fitGAP = createField(
                 "gap",
                 FIT_GAP_ID,
                 FitContributor.DATA_TYPE_FLOAT,
@@ -227,7 +221,7 @@ class RepaFieldView extends WatchUi.DataField {
                     :units=>isPaceMetric ? "min/km" : "min/mi",
                 }
             );
-            fitVSpeed = DataField.createField(
+            fitVSpeed = createField(
                 "vspeed",
                 FIT_VSPEED_ID,
                 FitContributor.DATA_TYPE_FLOAT,
@@ -236,21 +230,21 @@ class RepaFieldView extends WatchUi.DataField {
                     :units=>isElevationMetric ? "m/min" : "ft/min",
                 }
             );
-            fitVSpeedSumAvg = DataField.createField(
+            fitVSpeedSumAvg = createField(
                 "avg_vspeed",
                 FIT_VSPEED_SUM_AVG_ID,
                 FitContributor.DATA_TYPE_FLOAT,
                 {
-                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :mesgType=>FitContributor.MESG_TYPE_SESSION,
                     :units=>isElevationMetric ? "m/min" : "ft/min",
                 }
             );
-            fitVSpeedLapAvg = DataField.createField(
-                "avg_vspeed",
+            fitVSpeedLapAvg = createField(
+                "lap_avg_vspeed",
                 FIT_VSPEED_LAP_AVG_ID,
                 FitContributor.DATA_TYPE_FLOAT,
                 {
-                    :mesgType=>FitContributor.MESG_TYPE_RECORD,
+                    :mesgType=>FitContributor.MESG_TYPE_LAP,
                     :units=>isElevationMetric ? "m/min" : "ft/min",
                 }
             );
@@ -537,18 +531,18 @@ class RepaFieldView extends WatchUi.DataField {
             if (fitGrade != null) {
                 fitGrade.setData(cgrade ? cgrade : 0);
                 var gradeSumAvg = grade.totalAvg();
-                fitGradeSumAvg.setData(gradeSumAvg ? gradeSumAvg : 0);
+                fitGradeSumAvg.setData(gradeSumAvg ? gradeSumAvg * 100 : 0);
                 var gradeLapAvg = grade.lapAvg();
-                fitGradeLapAvg.setData(gradeLapAvg ? gradeLapAvg : 0);
+                fitGradeLapAvg.setData(gradeLapAvg ? gradeLapAvg * 100 : 0);
             }
             if (fitGAP != null) {
                 fitGAP.setData(cgap ? cgap : 0);
             }
             if (fitVSpeed != null) {
                 fitVSpeed.setData(cvspeed ? cvspeed : 0);
-                var vsSumAvg = grade.totalAvg();
+                var vsSumAvg = vspeed.totalAvg();
                 fitVSpeedSumAvg.setData(vsSumAvg ? vsSumAvg : 0);
-                var vsLapAvg = grade.lapAvg();
+                var vsLapAvg = vspeed.lapAvg();
                 fitVSpeedLapAvg.setData(vsLapAvg ? vsLapAvg : 0);
             }
         }

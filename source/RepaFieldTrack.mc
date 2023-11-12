@@ -59,9 +59,11 @@ class Track extends WatchUi.Drawable {
         var astart = 150;
         var aend = 390;
         var offtrack = _offCourse > 50.0f;
-        dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
+        dc.setPenWidth((dc.getWidth() * 0.01).toNumber() + 1);
         dc.setColor(offtrack ? 0x880000 : 0x555555, Graphics.COLOR_TRANSPARENT);
-        dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, aend);
+        // the center is between two points, so draw twice
+        dc.drawArc(w / 2 - 1, h / 2, w / 2 - 1, Graphics.ARC_COUNTER_CLOCKWISE, astart, aend);
+        dc.drawArc(w / 2, h / 2, w / 2 - 1, Graphics.ARC_COUNTER_CLOCKWISE, astart, aend);
 
         if (trackPercentage <= 0.0f) {
             return;
@@ -88,7 +90,8 @@ class Track extends WatchUi.Drawable {
         } else if (acurrent > aend) {
             acurrent = aend;
         }
-        dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, astart, acurrent);
+        dc.drawArc(w / 2 - 1, h / 2, w / 2 - 1, Graphics.ARC_COUNTER_CLOCKWISE, astart, acurrent);
+        dc.drawArc(w / 2, h / 2, w / 2 - 1, Graphics.ARC_COUNTER_CLOCKWISE, astart, acurrent);
 
         // next point
         if (_toNextPoint > 0.0f) {
@@ -101,8 +104,15 @@ class Track extends WatchUi.Drawable {
                 anext = aend;
             }
             dc.setPenWidth((dc.getWidth() * 0.01).toNumber());
-            dc.setColor(offtrack ? 0xAA0000 : 0xAAAAAA, Graphics.COLOR_TRANSPARENT);
-            dc.drawArc(w / 2, h / 2, w / 2 - 2, Graphics.ARC_COUNTER_CLOCKWISE, acurrent, anext);
+            if (offtrack) {
+                dc.setColor(0xAA0000, Graphics.COLOR_TRANSPARENT);
+            } else if (_toNextPoint > 500) {
+                dc.setColor(0xAAAAAA, Graphics.COLOR_TRANSPARENT);
+            } else {
+                dc.setColor(0xAAFF44, Graphics.COLOR_TRANSPARENT);
+            }
+            dc.drawArc(w / 2, h / 2, w / 2 - 1, Graphics.ARC_COUNTER_CLOCKWISE, acurrent, anext);
+            dc.drawArc(w / 2 - 1, h / 2, w / 2 - 1, Graphics.ARC_COUNTER_CLOCKWISE, acurrent, anext);
 
             // next point name
             if (_showNextPoint && _font != null && h > 350) {
@@ -112,7 +122,7 @@ class Track extends WatchUi.Drawable {
                 } else if (_nextPointName.length() > 20) {
                     pointText += " | " + _nextPointName.substring(0, 17) + "...";
                 }
-                if (_toNextPoint > 1000) {
+                if (_toNextPoint > 500) {
                     dc.setColor(0x88FFFF, Graphics.COLOR_TRANSPARENT);
                 } else {
                     dc.setColor(0xAAFF44, Graphics.COLOR_TRANSPARENT);
