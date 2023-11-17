@@ -8,4 +8,5 @@
     <property id="showNextPoint" type="boolean">true</property>
     <property id="saveToFit" type="boolean">true</property>
     <property id="tlFieldData" type="number">1</property>
+    <property id="rollingAvgWindow" type="number">5</property>
 </properties>

@@ -55,6 +55,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var speedNotPace as Boolean;
     hidden var showNextPoint as Boolean;
     hidden var tlFieldData as Number;
+    hidden var rollingAvgWindow as Number = 5;
     hidden var hrZones as Array<Number>;
     hidden var hrHist as Array<Number>;
     hidden var hrZoneColors as Array<Number>;
@@ -129,8 +130,6 @@ class RepaFieldView extends WatchUi.DataField {
     function initialize() {
         DataField.initialize();
 
-        var RASize = 5; // TODO: rolling average window size => settings
-
         themeColor = Application.Properties.getValue("themeColor").toNumberWithBase(16);
         themeColor2 = Application.Properties.getValue("themeColor2").toNumberWithBase(16);
         themeColor3 = Application.Properties.getValue("themeColor3").toNumberWithBase(16);
@@ -138,6 +137,7 @@ class RepaFieldView extends WatchUi.DataField {
         speedNotPace = Application.Properties.getValue("speedNotPace");
         showNextPoint = Application.Properties.getValue("showNextPoint");
         tlFieldData = Application.Properties.getValue("tlFieldData").toNumber();
+        rollingAvgWindow = Application.Properties.getValue("rollingAvgWindow").toNumber();
 
         hrValue = 0;
         ahrValue = 0;
@@ -170,9 +170,9 @@ class RepaFieldView extends WatchUi.DataField {
         cgrade = null;
         cvspeed = null;
         cgap = null;
-        deltaAlt = new RollingAverage(RASize);
-        deltaDist = new RollingAverage(RASize);
-        deltaTime = new RollingAverage(RASize);
+        deltaAlt = new RollingAverage(rollingAvgWindow);
+        deltaDist = new RollingAverage(rollingAvgWindow);
+        deltaTime = new RollingAverage(rollingAvgWindow);
 
         var settings = System.getDeviceSettings();
         isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;

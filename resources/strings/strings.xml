@@ -16,6 +16,7 @@
     <string id="TLFGrade">Grade</string>
     <string id="TLFGAP">Grade Adjusted Pace</string>
     <string id="TLFVSpeed">Vertical Speed</string>
+    <string id="RollingAvgWindow">Rolling average window (~seconds)</string>
     <string id="uGrade">%</string>
     <string id="uGAP">min/km</string>
     <string id="uVSpeed">m/min</string>
