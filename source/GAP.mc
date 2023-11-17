@@ -11,7 +11,9 @@ const GRADE_ADJUSTMENT as Array<Array<Numeric>> = [
 
 function adjustPaceForGrade(pace, grade) {
     if (grade <= GRADE_ADJUSTMENT[0][0]) {
-        return pace / GRADE_ADJUSTMENT[0][1];
+        var slope = (GRADE_ADJUSTMENT[1][1] - GRADE_ADJUSTMENT[0][1]) / (GRADE_ADJUSTMENT[1][0] - GRADE_ADJUSTMENT[0][0]);
+        var adjustment = GRADE_ADJUSTMENT[0][1] + slope * (grade - GRADE_ADJUSTMENT[0][0]);
+        return pace / adjustment;
     }
 
     var size = GRADE_ADJUSTMENT.size();
@@ -27,5 +29,8 @@ function adjustPaceForGrade(pace, grade) {
         }
     }
 
-    return pace / GRADE_ADJUSTMENT[size - 1][1];
+    var slope = (GRADE_ADJUSTMENT[size - 1][1] - GRADE_ADJUSTMENT[size - 2][1]) / (GRADE_ADJUSTMENT[size - 1][0] - GRADE_ADJUSTMENT[size - 2][0]);
+    var adjustment = GRADE_ADJUSTMENT[size - 1][1] + slope * (grade - GRADE_ADJUSTMENT[size - 1][0]);
+
+    return pace / adjustment;
 }
