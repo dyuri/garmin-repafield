@@ -119,14 +119,17 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var egain as Number;
     hidden var edrop as Number;
     hidden var cadence as Number;
-    hidden var grade as RollingAverage;
     hidden var cgrade;
-    hidden var vspeed as RollingAverage;
     hidden var cvspeed;
     hidden var cgap;
+    hidden var deltaAlt as RollingAverage;
+    hidden var deltaDist as RollingAverage;
+    hidden var deltaTime as RollingAverage;
 
     function initialize() {
         DataField.initialize();
+
+        var RASize = 5; // TODO: rolling average window size => settings
 
         themeColor = Application.Properties.getValue("themeColor").toNumberWithBase(16);
         themeColor2 = Application.Properties.getValue("themeColor2").toNumberWithBase(16);
@@ -164,11 +167,12 @@ class RepaFieldView extends WatchUi.DataField {
         egain = 0;
         edrop = 0;
         cadence = 0;
-        grade = new RollingAverage(10);
         cgrade = null;
-        vspeed = new RollingAverage(10);
         cvspeed = null;
         cgap = null;
+        deltaAlt = new RollingAverage(RASize);
+        deltaDist = new RollingAverage(RASize);
+        deltaTime = new RollingAverage(RASize);
 
         var settings = System.getDeviceSettings();
         isDistanceMetric = settings.distanceUnits == System.UNIT_METRIC;
@@ -252,18 +256,21 @@ class RepaFieldView extends WatchUi.DataField {
     }
 
     public function onNextMultisportLeg() as Void {
-        grade.reset();
-        vspeed.reset();
+        deltaAlt.reset();
+        deltaDist.reset();
+        deltaTime.reset();
     }
 
     public function onTimerLap() as Void {
-        grade.lapReset();
-        vspeed.lapReset();
+        deltaAlt.lapReset();
+        deltaDist.lapReset();
+        deltaTime.lapReset();
     }
 
     public function onTimerReset() as Void {
-        grade.reset();
-        vspeed.reset();
+        deltaAlt.reset();
+        deltaDist.reset();
+        deltaTime.reset();
     }
 
     public function onTimerStart() as Void {
@@ -381,30 +388,29 @@ class RepaFieldView extends WatchUi.DataField {
         if (info.timerTime != null && info.timerTime > 0 && timerRunning) {
             if (info.altitude != null) {
                 var altChange = info.altitude - altitude;
+                deltaAlt.insert(altChange);
+                var da = deltaAlt.getRolling();
 
                 // grade
                 if (info.elapsedDistance != null) {
                     var distChange = info.elapsedDistance - distance;
-                    if (distChange > 0) {
-                        grade.insert(altChange / distChange);
-                    }
-                    var currentGrade = grade.getRolling();
-                    if (currentGrade) {
-                        cgrade = currentGrade * 100;
+                    deltaDist.insert(distChange);
+
+                    var dd = deltaDist.getRolling();
+                    if (da != null && dd != null && dd != 0) {
+                        cgrade = da / dd * 100;
                     }
                 }
 
                 // vspeed - m/min or ft/min
                 var timerChange = info.timerTime - timer;
-                if (timerChange > 0) {
+                deltaTime.insert(timerChange);
+                var dt = deltaTime.getRolling();
+
+                if (dt != null && dt > 0 && da != null) {
+                    cvspeed = da / dt * 60000.0f;
                     if (!isElevationMetric) {
-                        vspeed.insert(meterToFeet * altChange / (timerChange / 60000.0));
-                    } else {
-                        vspeed.insert(altChange / (timerChange / 60000.0));
-                    }
-                    var currentVSpeed = vspeed.getRolling();
-                    if (currentVSpeed != null ) {
-                        cvspeed = currentVSpeed;
+                        cvspeed *= meterToFeet;
                     }
                 }
             }
@@ -528,22 +534,50 @@ class RepaFieldView extends WatchUi.DataField {
         // fit update
         // TODO: refactor into separate function/class
         if (timerRunning) {
+            var avgDA = deltaAlt.totalAvg();
+            var avgLDA = deltaAlt.lapAvg();
             if (fitGrade != null) {
                 fitGrade.setData(cgrade ? cgrade : 0);
-                var gradeSumAvg = grade.totalAvg();
-                fitGradeSumAvg.setData(gradeSumAvg ? gradeSumAvg * 100 : 0);
-                var gradeLapAvg = grade.lapAvg();
-                fitGradeLapAvg.setData(gradeLapAvg ? gradeLapAvg * 100 : 0);
+
+                var avgDD = deltaDist.totalAvg();
+                var avgGrade = 0.0f;
+                if (avgDA != null && avgDD != null && avgDD != 0) {
+                    avgGrade = avgDA / avgDD;
+                }
+                fitGradeSumAvg.setData(avgGrade * 100);
+
+                var avgLDD = deltaDist.lapAvg();
+                var avgLGrade = 0.0f;
+                if (avgLDA != null && avgLDD != null && avgLDD != 0) {
+                    avgLGrade = avgLDA / avgLDD;
+                }
+                fitGradeLapAvg.setData(avgLGrade * 100);
             }
             if (fitGAP != null) {
-                fitGAP.setData(cgap ? cgap : 0);
+                fitGAP.setData(cgap ? cgap : 60);
             }
             if (fitVSpeed != null) {
                 fitVSpeed.setData(cvspeed ? cvspeed : 0);
-                var vsSumAvg = vspeed.totalAvg();
-                fitVSpeedSumAvg.setData(vsSumAvg ? vsSumAvg : 0);
-                var vsLapAvg = vspeed.lapAvg();
-                fitVSpeedLapAvg.setData(vsLapAvg ? vsLapAvg : 0);
+
+                var avgDT = deltaTime.totalAvg();
+                var vsSumAvg = 0.0f;
+                if (avgDA != null && avgDT != null && avgDT != 0) {
+                    vsSumAvg = avgDA / avgDT * 60000.0f;
+                    if (!isElevationMetric) {
+                        vsSumAvg *= meterToFeet;
+                    }
+                }
+                fitVSpeedSumAvg.setData(vsSumAvg);
+
+                var avgLDT = deltaTime.lapAvg();
+                var vsLapAvg = 0.0f;
+                if (avgDA != null && avgLDT != null && avgLDT != 0) {
+                    vsLapAvg = avgLDA / avgLDT * 60000.0f;
+                    if (!isElevationMetric) {
+                        vsLapAvg *= meterToFeet;
+                    }
+                }
+                fitVSpeedLapAvg.setData(vsLapAvg);
             }
         }
     }
