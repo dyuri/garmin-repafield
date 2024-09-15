@@ -1,5 +1,5 @@
 <properties>
-    <property id="appVersion" type="string">2.0.2</property>
+    <property id="appVersion" type="string">2.0.4</property>
     <property id="themeColor" type="string">0</property>
     <property id="themeColor2" type="string">0088FF</property>
     <property id="themeColor3" type="string">00AA55</property>

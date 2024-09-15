@@ -17,8 +17,8 @@ class RepaFieldApp extends Application.AppBase {
     }
 
     //! Return the initial view of your application here
-    function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new RepaFieldView() ] as Array<Views or InputDelegates>;
+    function getInitialView() {
+        return [new RepaFieldView() as View];
     }
 
 }

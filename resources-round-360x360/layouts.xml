@@ -1,0 +1,72 @@
+<layouts>
+    <!-- A generic, centered layout. -->
+    <layout id="MainLayout">
+        <drawable class="Background"/>
+        <drawable class="BgOverlay" id="BgOverlay">
+            <param name="x">150</param>
+            <param name="y">52</param>
+            <param name="h">230</param>
+            <param name="d">-32</param>
+        </drawable>
+        <drawable class="HeartRate" id="HeartRate">
+            <param name="y">54</param>
+        </drawable>
+        <drawable class="Track" />
+        <!-- drawable class="Stamina" /-->
+
+        <!-- hr labels -->
+        <label id="hr" x="center" y="3" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_MEDIUM" />
+        <label id="ahr" x="32%" y="12" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+        <label id="mhr" x="68%" y="12" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+
+        <!-- time/timer -->
+        <label id="timerHM" x="132" y="238" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_MEDIUM" />
+        <label id="timerS" x="134" y="258" color="Graphics.COLOR_LT_GRAY" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" />
+        <label id="time" x="50%" y="300" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
+
+        <!-- distance/pace/avg pace -->
+        <label id="pace" x="315" y="60" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MILD"/>
+        <label id="iconPace" x="317" y="102" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="1" />
+        <label id="apace" x="315" y="143" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_LARGE"/>
+        <label id="iconAPace" x="317" y="163" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="2" />
+        <label id="distance" x="315" y="200" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_RIGHT" font="Graphics.FONT_NUMBER_MILD" />
+        <label id="distanceLabel" x="317" y="220" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_XTINY" text="km"/>
+
+        <!-- cadence -->
+        <label id="iconCadence" x="30" y="91" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="5" />
+        <label id="cadence" x="62" y="77" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM" />
+
+        <!-- elevation, egain -->
+        <label id="iconHills" x="22" y="129" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="0" />
+        <label id="elevation" x="62" y="117" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="iconEGain" x="22" y="169" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="3" />
+        <label id="elevationGain" x="62" y="157" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+        <label id="iconELoss" x="22" y="209" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" font="@Fonts.repafield_icons" text="4" />
+        <label id="elevationLoss" x="62" y="197" color="0x0088FF" justification="Graphics.TEXT_JUSTIFY_LEFT" font="Graphics.FONT_MEDIUM"/>
+
+    </layout>
+
+    <!-- Layouts used for the for the four quadrants. -->
+    <layout id="TopLayout">
+        <drawable class="Background" />
+        <drawable class="HeartRate" id="HeartRate">
+            <param name="y">64</param>
+        </drawable>
+
+        <!-- hr labels -->
+        <label id="hr" x="center" y="6" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_MEDIUM" />
+        <label id="ahr" x="32%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+        <label id="mhr" x="68%" y="18" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+    </layout>
+    <layout id="BottomLayout">
+        <drawable class="Background" />
+        <drawable class="HeartRate" id="HeartRate">
+            <param name="y">64</param>
+        </drawable>
+
+        <!-- hr labels -->
+        <label id="hr" x="center" y="72" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_MEDIUM" />
+        <label id="ahr" x="32%" y="72" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+        <label id="mhr" x="68%" y="72" color="0x888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_TINY" />
+    </layout>
+</layouts>

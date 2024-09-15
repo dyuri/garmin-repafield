@@ -63,7 +63,7 @@ class RepaFieldView extends WatchUi.DataField {
     hidden var cadenceZoneColors as Array<Number>;
     hidden var gradeZones as Array<Number>;
     hidden var gradeZoneColors as Array<Number>;
-    hidden var vsZones as Array<Number>;
+    hidden var vsZones as Array<Float>;
     hidden var vsZoneColors as Array<Number>;
     hidden var isDistanceMetric as Boolean;
     hidden var isElevationMetric as Boolean;
@@ -554,7 +554,7 @@ class RepaFieldView extends WatchUi.DataField {
                 fitGradeLapAvg.setData(avgLGrade * 100);
             }
             if (fitGAP != null) {
-                fitGAP.setData(cgap ? cgap : 60);
+                fitGAP.setData(cgap ? cgap : 0);
             }
             if (fitVSpeed != null) {
                 fitVSpeed.setData(cvspeed ? cvspeed : 0);
